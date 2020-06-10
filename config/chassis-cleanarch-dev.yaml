@@ -1,0 +1,28 @@
+app:
+  appName: Clean Architecture - NodeJS - Organization by themes
+  description: Demo of Clean Architecture in NodeJS by themes
+  environment: dev
+log:  
+  level: debug # modes available orderer by magnitude: error, warning, info, debug
+authentication:
+  tokenExpiration: 30 #minutes
+  tokenSecret: fromzerotohero
+express:
+  enableCors: false
+  timeout: 10s
+  httpsAlways: false
+  privateRouting:
+    enabled: true
+    middleware: defaultAuthenticationMiddleware
+    routes:
+      - route: "/api/private/*"
+database:
+  dbname: gamecollector-db
+  dbuser: gamecollector-user
+  dbpasswd: alfa1beta2
+  dbhost: localhost
+  dbdialect: mysql
+  # // TODO : implementar un metodo que obtenga todos los modelos automáticamente para evitar tener que declararlos aquí
+  models:
+    - sequelizeGamesystemModel
+    

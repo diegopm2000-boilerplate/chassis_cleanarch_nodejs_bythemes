@@ -1,0 +1,32 @@
+version: '3.5'
+
+services:
+
+  chassis-cleanarch-db:
+    image: mysql:8.0.20
+    container_name: chassis-cleanarch-db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: gamecollector-db
+      MYSQL_USER: gamecollector-user
+      MYSQL_PASSWORD: alfa1beta2
+    ports:
+      - 3306:3306
+    volumes:
+      - chassis-cleanarch-mysqldb:/var/lib/mysql
+    
+  chassis-cleanarch-db-adminer:
+    image: adminer
+    container_name: chassis-cleanarch-db-adminer
+    ports:
+      - 8085:8080
+
+volumes:
+  chassis-cleanarch-mysqldb:
+  
+networks:
+  chassis-cleanarch-network:
+    name: chassis-cleanarch-network
+    driver: bridge
+  
