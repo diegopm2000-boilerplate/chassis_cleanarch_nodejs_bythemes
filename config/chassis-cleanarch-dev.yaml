@@ -4,18 +4,10 @@ app:
   environment: dev
 log:  
   level: debug # modes available orderer by magnitude: error, warning, info, debug
-authentication:
-  tokenExpiration: 30 #minutes
-  tokenSecret: fromzerotohero
 express:
   enableCors: false
   timeout: 10s
   httpsAlways: false
-  privateRouting:
-    enabled: true
-    middleware: defaultAuthenticationMiddleware
-    routes:
-      - route: "/api/private/*"
 database:
   dbname: gamecollector-db
   dbuser: gamecollector-user

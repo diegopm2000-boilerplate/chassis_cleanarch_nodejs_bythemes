@@ -58,7 +58,11 @@ const buildOperations = (apiDocumentFilepath) => {
 };
 
 exports.start = async ({
-  port, apiDocumentFilepath, serverTimeout, enableCors, httpsAlways, privateRouting,
+  port,
+  apiDocumentFilepath,
+  serverTimeout,
+  enableCors,
+  httpsAlways,
 }) => new Promise((resolve, reject) => {
   try {
     container.getLogger().info(`${MODULE_NAME} (IN) --> port: ${port}, apiDocumentFilepath: ${apiDocumentFilepath}, 
@@ -77,15 +81,6 @@ exports.start = async ({
 
     // Init Security
     security.init(app, httpsAlways);
-
-    // Private routing
-    if (privateRouting.enabled) {
-      container.getLogger().info(`${MODULE_NAME} (MID) --> Enabling private routes: ${JSON.stringify(privateRouting.routes)}, using middleware: ${privateRouting.middleware}`);
-      const middleware = container.get(privateRouting.middleware);
-      privateRouting.routes.forEach((x) => {
-        app.use(x.route, middleware.execute);
-      });
-    }
 
     // Enable CORS
     if (enableCors) {
@@ -119,7 +114,6 @@ exports.start = async ({
       appPort,
       enableCors,
       appTimeout,
-      enablePrivateRouting: privateRouting.enabled,
     };
 
     container.getLogger().info(`${MODULE_NAME} (OUT) --> appServerStatus: ${JSON.stringify(appServerStatus)}`);

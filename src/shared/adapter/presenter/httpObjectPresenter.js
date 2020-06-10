@@ -10,7 +10,7 @@ const OBJ_RELATIONSHIP_NOT_FOUND_PRESENT = 'relationshipNotFoundPresent';
 const OBJ_NOT_AUTHENTICATED_PRESENT = 'notAuthenticatedPresent';
 const OBJ_NOT_AUTHORIZED_PRESENT = 'notAuthorizedPresent';
 
-// TODO sería mejor hacer un api específico para cada uno de los valores para que sea mas facilmente llamado desde los casos de uso
+// Reestructurar esto
 
 const present = (options) => {
   let result;
@@ -58,24 +58,24 @@ const presentObjectIfFound = (moduleName, logger, objectFound) => {
     result = present({ case: OBJ_NOT_FOUND_PRESENT });
   }
 
-  logger.info(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
+  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
 };
 
 const presentObjectNotFound = (moduleName, logger) => {
-  logger.info(`${moduleName} (OUT) --> Object not found`);
+  logger.debug(`${moduleName} (OUT) --> Object not found`);
   return present({ case: OBJ_NOT_FOUND_PRESENT });
 };
 
 const presentObject = (moduleName, logger, object) => {
   const result = present({ case: OBJ_PRESENT, obj: object });
-  logger.info(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
+  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
 };
 
 const presentCreatedObject = (moduleName, logger, object) => {
   const result = present({ case: OBJ_CREATED_PRESENT, obj: object });
-  logger.info(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
+  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
 };
 
@@ -89,7 +89,7 @@ const presentConflict = (moduleName, logger, errors) => {
   }
 
   const result = present({ case: OBJ_MOD_CONFLICT_PRESENT, message });
-  logger.info(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
+  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
 };
 
@@ -101,7 +101,7 @@ const presentResultOfDeletion = (moduleName, logger, wasDeleted) => {
     result = present({ case: OBJ_NOT_FOUND_PRESENT });
   }
 
-  logger.info(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
+  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
 };
 
@@ -114,19 +114,19 @@ const presentResultOfRelationshipDeletion = (moduleName, logger, wasDeleted) => 
     result = present({ case: OBJ_RELATIONSHIP_NOT_FOUND_PRESENT });
   }
 
-  logger.info(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
+  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
 };
 
 const presentNotAuthorized = (moduleName, logger) => {
   const result = present({ case: OBJ_NOT_AUTHORIZED_PRESENT });
-  logger.info(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
+  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
 };
 
 const presentNotAuthenticated = (moduleName, logger) => {
   const result = present({ case: OBJ_NOT_AUTHENTICATED_PRESENT });
-  logger.info(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
+  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
 };
 

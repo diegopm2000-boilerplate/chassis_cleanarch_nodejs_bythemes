@@ -1,5 +1,7 @@
 // validator.js
 
+// TODO intentar cambiar este validator por JSON-SCHEMA
+
 const STRING_MAX_LENGTH = 45;
 
 const defaultResult = {

@@ -1,4 +1,4 @@
-// getConfigUC.js UseCase
+// getConfigUC.js
 
 const MODULE_NAME = '[getConfig UC]';
 
@@ -8,6 +8,7 @@ exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, log
   // IN parameters
   const { finalConfigRepository } = params;
 
+  // Get Config
   const innerResult = await commonProxyRepository.get(finalConfigRepository).getConfig();
   logger.info(`${MODULE_NAME} (MID) --> innerResult: ${JSON.stringify(innerResult)}`);
 

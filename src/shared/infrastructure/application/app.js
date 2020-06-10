@@ -112,9 +112,6 @@ exports.init = async () => {
     // Init Sequelize & Models
     container.getSequelizeInfra().init(config.database);
 
-    // Init jwtInfra
-    container.get('jwtInfra').init(config.authentication);
-
     // options passed to apiserver
     const options = {
       port: envVars.configPort,
