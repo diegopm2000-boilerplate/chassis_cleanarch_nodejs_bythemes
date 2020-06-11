@@ -47,39 +47,31 @@ const present = (options) => {
       throw new Error(`${options.case} as presentationCase not defined in presenter!`);
   }
 
+  options.logger.debug(`${options.moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
 };
 
-const presentObjectIfFound = (moduleName, logger, objectFound) => {
-  let result;
+exports.presentObjectIfFound = (moduleName, logger, objectFound) => {
   if (objectFound) {
-    result = present({ case: OBJ_PRESENT, obj: objectFound });
-  } else {
-    result = present({ case: OBJ_NOT_FOUND_PRESENT });
+    return present({
+      moduleName, logger, case: OBJ_PRESENT, obj: objectFound,
+    });
   }
 
-  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
-  return result;
+  return present({ moduleName, logger, case: OBJ_NOT_FOUND_PRESENT });
 };
 
-const presentObjectNotFound = (moduleName, logger) => {
-  logger.debug(`${moduleName} (OUT) --> Object not found`);
-  return present({ case: OBJ_NOT_FOUND_PRESENT });
-};
+exports.presentObjectNotFound = (moduleName, logger) => present({ moduleName, logger, case: OBJ_NOT_FOUND_PRESENT });
 
-const presentObject = (moduleName, logger, object) => {
-  const result = present({ case: OBJ_PRESENT, obj: object });
-  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
-  return result;
-};
+exports.presentObject = (moduleName, logger, object) => present({
+  moduleName, logger, case: OBJ_PRESENT, obj: object,
+});
 
-const presentCreatedObject = (moduleName, logger, object) => {
-  const result = present({ case: OBJ_CREATED_PRESENT, obj: object });
-  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
-  return result;
-};
+exports.presentCreatedObject = (moduleName, logger, object) => present({
+  moduleName, logger, case: OBJ_CREATED_PRESENT, obj: object,
+});
 
-const presentConflict = (moduleName, logger, errors) => {
+exports.presentConflict = (moduleName, logger, errors) => {
   let message;
   if (Array.isArray(errors)) {
     // eslint-disable-next-line prefer-destructuring
@@ -88,66 +80,27 @@ const presentConflict = (moduleName, logger, errors) => {
     message = errors;
   }
 
-  const result = present({ case: OBJ_MOD_CONFLICT_PRESENT, message });
-  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
-  return result;
+  return present({
+    moduleName, logger, case: OBJ_MOD_CONFLICT_PRESENT, message,
+  });
 };
 
-const presentResultOfDeletion = (moduleName, logger, wasDeleted) => {
-  let result;
+exports.presentResultOfDeletion = (moduleName, logger, wasDeleted) => {
   if (wasDeleted) {
-    result = present({ case: OBJ_DELETED_PRESENT });
-  } else {
-    result = present({ case: OBJ_NOT_FOUND_PRESENT });
+    return present({ moduleName, logger, case: OBJ_DELETED_PRESENT });
   }
 
-  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
-  return result;
+  return present({ moduleName, logger, case: OBJ_NOT_FOUND_PRESENT });
 };
 
-const presentResultOfRelationshipDeletion = (moduleName, logger, wasDeleted) => {
-  let result;
-
+exports.presentResultOfRelationshipDeletion = (moduleName, logger, wasDeleted) => {
   if (wasDeleted) {
-    result = present({ case: OBJ_DELETED_PRESENT });
-  } else {
-    result = present({ case: OBJ_RELATIONSHIP_NOT_FOUND_PRESENT });
+    return present({ moduleName, logger, case: OBJ_DELETED_PRESENT });
   }
 
-  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
-  return result;
+  return present({ moduleName, logger, case: OBJ_RELATIONSHIP_NOT_FOUND_PRESENT });
 };
 
-const presentNotAuthorized = (moduleName, logger) => {
-  const result = present({ case: OBJ_NOT_AUTHORIZED_PRESENT });
-  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
-  return result;
-};
+exports.presentNotAuthorized = (moduleName, logger) => present({ moduleName, logger, case: OBJ_NOT_AUTHORIZED_PRESENT });
 
-const presentNotAuthenticated = (moduleName, logger) => {
-  const result = present({ case: OBJ_NOT_AUTHENTICATED_PRESENT });
-  logger.debug(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
-  return result;
-};
-
-module.exports = {
-  present,
-  presentObject,
-  presentCreatedObject,
-  presentObjectIfFound,
-  presentObjectNotFound,
-  presentConflict,
-  presentResultOfDeletion,
-  presentResultOfRelationshipDeletion,
-  presentNotAuthorized,
-  presentNotAuthenticated,
-  OBJ_PRESENT,
-  OBJ_LIST_PRESENT,
-  OBJ_CREATED_PRESENT,
-  OBJ_DELETED_PRESENT,
-  OBJ_NOT_FOUND_PRESENT,
-  OBJ_MOD_CONFLICT_PRESENT,
-  OBJ_RELATIONSHIP_NOT_FOUND_PRESENT,
-  OBJ_NOT_AUTHENTICATED_PRESENT,
-  OBJ_NOT_AUTHORIZED_PRESENT,
-};
+exports.presentNotAuthenticated = (moduleName, logger) => present({ moduleName, logger, case: OBJ_NOT_AUTHENTICATED_PRESENT });

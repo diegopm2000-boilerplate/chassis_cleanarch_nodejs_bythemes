@@ -11,7 +11,7 @@ exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, log
   // Check if exist the gamesystem
   const gamesystemFound = await commonProxyRepository.get('getGamesystemByIdRepository').execute(id);
   if (!gamesystemFound) {
-    return presenter.present({ case: presenter.OBJ_NOT_FOUND_PRESENT });
+    return presenter.presentObjectNotFound(MODULE_NAME, logger);
   }
 
   const wasDeleted = await commonProxyRepository.get('deleteGamesystemRepository').execute(id);
