@@ -5,57 +5,32 @@
 
 const fileInfra = require('../util/fileInfra');
 
-// Module store
-const moduleStore = {};
-// Config store
-let configStore = {};
+// //////////////////////////////////////////////////////////////////////////////
+// Properties & Constants
+// //////////////////////////////////////////////////////////////////////////////
 
-const prefix = '../../../../';
+const PREFIX = '../../../../';
+const MODULE_FOLDER = 'src';
+
+const moduleStore = {};
+let configStore = {};
 
 // //////////////////////////////////////////////////////////////////////////////
 // Private Methods
 // //////////////////////////////////////////////////////////////////////////////
 
 const set = ({ name, path }) => {
-  // console.log(`--> loading module: ${name}, path: ${path}`);
   moduleStore[name] = require(path);
 };
 
 const loadFromFolder = (folder) => {
   const moduleNames = fileInfra.getAllModuleNames(folder);
-  // console.log(`--> moduleNames: ${JSON.stringify(moduleNames)}`);
-
-  moduleNames.forEach((x) => set({ name: fileInfra.getFileName(x).split('.').slice(0, -1).join('.'), path: `${prefix}${x}` }));
+  moduleNames.forEach((x) => set({ name: fileInfra.getFileName(x).split('.').slice(0, -1).join('.'), path: `${PREFIX}${x}` }));
 };
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Methods
 // //////////////////////////////////////////////////////////////////////////////
-
-exports.get = (nameModule) => {
-  const result = moduleStore[nameModule];
-
-  if (!result) {
-    throw new Error(`${nameModule} not found in container`);
-  }
-
-  return result;
-};
-
-exports.defaultInit = () => {
-  set({ name: 'logger', path: '../log/consoleLogger' });
-};
-
-exports.init = ({ loggerModuleName, loadingMethod }) => {
-  if (loadingMethod === exports.LOADING_METHOD_FROM_FOLDER) {
-    loadFromFolder('src');
-  } else {
-    throw new Error(`${loadingMethod} as modules loading method is not valid.`);
-  }
-
-  // Set the app logger pointing to the module logger
-  moduleStore.logger = exports.get(loggerModuleName);
-};
 
 exports.getLogger = () => exports.get('logger');
 
@@ -63,8 +38,23 @@ exports.getConfig = () => configStore;
 
 exports.setConfig = (data) => { configStore = data; };
 
-exports.getSequelizeInfra = () => exports.get('sequelizeInfra');
+exports.get = (nameModule) => {
+  const result = moduleStore[nameModule];
 
-exports.LOADING_METHOD_FROM_FOLDER = 'LOADING_METHOD_FROM_FOLDER';
+  // Check if module was found in container
+  if (!result) {
+    throw new Error(`${nameModule} not found in container`);
+  }
+  // Return module found
+  return result;
+};
 
-exports.LOADING_METHOD_FROM_DESCRIPTOR_FILE = 'LOADING_METHOD_FROM_DESCRIPTOR_FILE';
+exports.defaultInit = () => {
+  set({ name: 'logger', path: '../log/consoleLogger' });
+};
+
+exports.init = (loggerModuleName) => {
+  loadFromFolder(MODULE_FOLDER);
+  // Set the app logger pointing to the module logger
+  moduleStore.logger = exports.get(loggerModuleName);
+};

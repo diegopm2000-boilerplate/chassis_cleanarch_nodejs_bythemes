@@ -4,9 +4,7 @@ const express = require('express');
 const expressOpenapi = require('express-openapi');
 const timeout = require('connect-timeout');
 const getMyKeys = require('uas-get-my-keys');
-
 const cors = require('cors');
-
 const swaggerUi = require('swagger-ui-express');
 const bodyParser = require('body-parser');
 

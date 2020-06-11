@@ -3,8 +3,11 @@
 const container = require('../../container/container');
 const constants = require('../../../constants/constants');
 
+const MODULE_NAME = '[bootstrapExpressOpenApiServer';
+
 exports.init = async (config) => {
-  // options passed to apiserver
+  container.getLogger().debug(`${MODULE_NAME} init (IN) --> config: <<config>>`);
+
   const options = {
     port: config.express.port,
     apiDocumentFilepath: `${constants.APIDOC_BASEPATH}/${config.api.file}`,
@@ -15,4 +18,5 @@ exports.init = async (config) => {
 
   // Start api server
   await container.get('expressOpenApiServer').start(options);
+  container.getLogger().debug(`${MODULE_NAME} initConfig (OUT) --> initialized`);
 };

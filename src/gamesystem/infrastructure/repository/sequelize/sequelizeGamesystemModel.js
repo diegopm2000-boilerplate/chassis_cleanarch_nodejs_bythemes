@@ -11,7 +11,7 @@ const init = () => {
     id: { type: Sequelize.STRING, primaryKey: true },
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-  }, { sequelize: container.getSequelizeInfra().getSequelize(), modelName: 'Gamesystem', timestamps: false });
+  }, { sequelize: container.get('sequelizeInfra').getSequelize(), modelName: 'Gamesystem', timestamps: false });
 };
 
 const initAssociations = () => {

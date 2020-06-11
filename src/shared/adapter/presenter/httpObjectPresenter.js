@@ -1,5 +1,9 @@
 // httpObjectPresenter.js
 
+// //////////////////////////////////////////////////////////////////////////////
+// Constants & Properties
+// //////////////////////////////////////////////////////////////////////////////
+
 const OBJ_PRESENT = 'objPresent';
 const OBJ_LIST_PRESENT = 'objListPresent';
 const OBJ_CREATED_PRESENT = 'objCreatedPresent';
@@ -10,7 +14,9 @@ const OBJ_RELATIONSHIP_NOT_FOUND_PRESENT = 'relationshipNotFoundPresent';
 const OBJ_NOT_AUTHENTICATED_PRESENT = 'notAuthenticatedPresent';
 const OBJ_NOT_AUTHORIZED_PRESENT = 'notAuthorizedPresent';
 
-// Reestructurar esto
+// //////////////////////////////////////////////////////////////////////////////
+// Private methods
+// //////////////////////////////////////////////////////////////////////////////
 
 const present = (options) => {
   let result;
@@ -51,15 +57,13 @@ const present = (options) => {
   return result;
 };
 
-exports.presentObjectIfFound = (moduleName, logger, objectFound) => {
-  if (objectFound) {
-    return present({
-      moduleName, logger, case: OBJ_PRESENT, obj: objectFound,
-    });
-  }
+// //////////////////////////////////////////////////////////////////////////////
+// Public methods
+// //////////////////////////////////////////////////////////////////////////////
 
-  return present({ moduleName, logger, case: OBJ_NOT_FOUND_PRESENT });
-};
+exports.presentNotAuthorized = (moduleName, logger) => present({ moduleName, logger, case: OBJ_NOT_AUTHORIZED_PRESENT });
+
+exports.presentNotAuthenticated = (moduleName, logger) => present({ moduleName, logger, case: OBJ_NOT_AUTHENTICATED_PRESENT });
 
 exports.presentObjectNotFound = (moduleName, logger) => present({ moduleName, logger, case: OBJ_NOT_FOUND_PRESENT });
 
@@ -70,6 +74,16 @@ exports.presentObject = (moduleName, logger, object) => present({
 exports.presentCreatedObject = (moduleName, logger, object) => present({
   moduleName, logger, case: OBJ_CREATED_PRESENT, obj: object,
 });
+
+exports.presentObjectIfFound = (moduleName, logger, objectFound) => {
+  if (objectFound) {
+    return present({
+      moduleName, logger, case: OBJ_PRESENT, obj: objectFound,
+    });
+  }
+
+  return present({ moduleName, logger, case: OBJ_NOT_FOUND_PRESENT });
+};
 
 exports.presentConflict = (moduleName, logger, errors) => {
   let message;
@@ -100,7 +114,3 @@ exports.presentResultOfRelationshipDeletion = (moduleName, logger, wasDeleted) =
 
   return present({ moduleName, logger, case: OBJ_RELATIONSHIP_NOT_FOUND_PRESENT });
 };
-
-exports.presentNotAuthorized = (moduleName, logger) => present({ moduleName, logger, case: OBJ_NOT_AUTHORIZED_PRESENT });
-
-exports.presentNotAuthenticated = (moduleName, logger) => present({ moduleName, logger, case: OBJ_NOT_AUTHENTICATED_PRESENT });
