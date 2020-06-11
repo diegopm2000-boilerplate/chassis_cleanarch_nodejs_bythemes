@@ -3,6 +3,10 @@
 const container = require('../../../shared/infrastructure/container/container');
 const constants = require('../../../shared/constants/constants');
 
+// //////////////////////////////////////////////////////////////////////////////
+// Public Functions
+// //////////////////////////////////////////////////////////////////////////////
+
 exports.execute = async (req, res, next) => {
   try {
     const options = {

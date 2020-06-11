@@ -1,7 +1,6 @@
 // expressOpenApiController.js
 
 const container = require('../container/container');
-
 const constants = require('../../constants/constants');
 
 // //////////////////////////////////////////////////////////////////////////////

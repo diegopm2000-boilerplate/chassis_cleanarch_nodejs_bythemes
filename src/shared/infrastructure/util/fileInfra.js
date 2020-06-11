@@ -6,7 +6,9 @@ const path = require('path');
 const glob = require('glob');
 const YAML = require('yaml');
 
-// PRIVATE FUNCTIONS
+// //////////////////////////////////////////////////////////////////////////////
+// Private Functions
+// //////////////////////////////////////////////////////////////////////////////
 
 const checkExtension = (filepath) => {
   if (!filepath.endsWith('yml') && !filepath.endsWith('yaml') && !filepath.endsWith('json')) {
@@ -22,7 +24,9 @@ const parseFile = (filepath, buffer) => {
   return JSON.parse(buffer.toString()); // we assume that it will be a json file
 };
 
-// PUBLIC FUNCTIONS
+// //////////////////////////////////////////////////////////////////////////////
+// Public Functions
+// //////////////////////////////////////////////////////////////////////////////
 
 exports.loadObjFromFile = async (filepath) => {
   checkExtension(filepath);
