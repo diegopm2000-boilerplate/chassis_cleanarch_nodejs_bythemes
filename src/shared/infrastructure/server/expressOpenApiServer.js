@@ -1,23 +1,28 @@
 // openapiexpress.js
 
-const express = require('express');
+
 const expressOpenapi = require('express-openapi');
-const timeout = require('connect-timeout');
+
 const getMyKeys = require('uas-get-my-keys');
-const cors = require('cors');
-const swaggerUi = require('swagger-ui-express');
+
 const bodyParser = require('body-parser');
 
 const container = require('../container/container');
 const securityInfra = require('../util/securityInfra');
 const fileInfra = require('../util/fileInfra');
 
+const expressInfra = require('./expressInfra');
+const errorHandler = require('./errorHandler');
+
+// //////////////////////////////////////////////////////////////////////////////
+// Constants & Properties
+// //////////////////////////////////////////////////////////////////////////////
+
 const MODULE_NAME = '[OpenApiExpress Server]';
 
-const DEFAULT_PORT = 8080;
-const DEFAULT_REQUEST_TIMEOUT = '50s';
-
-let server;
+// //////////////////////////////////////////////////////////////////////////////
+// Private Functions
+// //////////////////////////////////////////////////////////////////////////////
 
 // All operations will be mapped to a controller named <<operationController>>.execute method
 const buildOperations = (apiDocumentFilepath) => {
@@ -40,6 +45,10 @@ const buildOperations = (apiDocumentFilepath) => {
   return result;
 };
 
+// //////////////////////////////////////////////////////////////////////////////
+// Public Functions
+// //////////////////////////////////////////////////////////////////////////////
+
 exports.start = async ({
   port,
   apiDocumentFilepath,
@@ -52,24 +61,15 @@ exports.start = async ({
     serverTimeout: ${serverTimeout}, enableCors: ${enableCors}, httpsAlways: ${httpsAlways}, privateRouting`);
 
     // Instance Expresss
-    const app = express();
-
-    // Handle the server timeout
-    const appTimeout = serverTimeout || DEFAULT_REQUEST_TIMEOUT;
-    app.use(timeout(appTimeout));
-
-    // Define the app listen port
-    const appPort = port || DEFAULT_PORT;
-    server = app.listen(appPort);
-
+    const app = expressInfra.init();
+    // Set the server timeout
+    const appTimeout = expressInfra.setServerTimeout(app, serverTimeout);
+    // Start the server
+    const appPort = expressInfra.start(app, port);
     // Init Security
     securityInfra.init(app, httpsAlways);
-
-    // Enable CORS
-    if (enableCors) {
-      container.getLogger().info(`${MODULE_NAME} (MID) --> Enabling CORS`);
-      app.use(cors());
-    }
+    // Enable Cors
+    expressInfra.enableCors(enableCors);
 
     // Initialize ExpressOpenApi
     expressOpenapi.initialize({
@@ -78,22 +78,20 @@ exports.start = async ({
       consumesMiddleware: {
         'application/json': bodyParser.json(),
       },
-      errorMiddleware: container.get('errorHandler').commonErrorHandler,
+      errorMiddleware: errorHandler.commonErrorHandler,
       // Put your operation controllers here
       operations: buildOperations(apiDocumentFilepath),
     });
 
     // Expose documentation using swagger-ui-express
-    const swaggerDocument = fileInfra.loadObjFromFileSync(apiDocumentFilepath);
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    expressInfra.exposeDoc(app, apiDocumentFilepath);
 
     // Specific route for handle the 404 route not found
-    app.use(container.get('errorHandler').routeNotFoundErrorHandler);
+    expressInfra.errorRouteNotFoundHandler(app);
 
+    // Build App Server Status
     const appServerStatus = {
-      appPort,
-      enableCors,
-      appTimeout,
+      appPort, enableCors, appTimeout,
     };
 
     container.getLogger().info(`${MODULE_NAME} (OUT) --> appServerStatus: ${JSON.stringify(appServerStatus)}`);
@@ -104,7 +102,3 @@ exports.start = async ({
     reject(new Error('Express did not start correctly!'));
   }
 });
-
-exports.stop = () => {
-  server.close(() => { container.getLogger().info('App Server stopped'); });
-};
