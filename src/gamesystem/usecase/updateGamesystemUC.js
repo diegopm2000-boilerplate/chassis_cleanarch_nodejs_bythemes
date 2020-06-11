@@ -10,6 +10,7 @@ exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, log
   // Business IN parameters
   const { gamesystemId: id, dataIN } = params;
 
+  // Build data
   const data = JSON.parse(JSON.stringify(dataIN));
   data.id = id;
 
