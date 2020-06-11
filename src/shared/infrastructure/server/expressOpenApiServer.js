@@ -9,7 +9,7 @@ const swaggerUi = require('swagger-ui-express');
 const bodyParser = require('body-parser');
 
 const container = require('../container/container');
-const security = require('../security/security');
+const securityInfra = require('../util/securityInfra');
 const fileInfra = require('../util/fileInfra');
 
 const MODULE_NAME = '[OpenApiExpress Server]';
@@ -18,21 +18,6 @@ const DEFAULT_PORT = 8080;
 const DEFAULT_REQUEST_TIMEOUT = '50s';
 
 let server;
-
-// eslint-disable-next-line no-unused-vars
-const errorHandler = (err, req, res, next) => {
-  container.getLogger().error(`${MODULE_NAME} (ERROR) --> error: ${err.stack}`);
-
-  const status = (err.status) ? err.status : 500;
-  const errorObj = { code: status, message: err.message };
-  res.status(status).json(errorObj);
-};
-
-// eslint-disable-next-line no-unused-vars
-const routeNotFoundErrorHandler = (req, res, next) => {
-  const errorObj = { code: 404, message: `Cannot ${req.method} ${req.path}` };
-  res.status(404).json(errorObj);
-};
 
 // All operations will be mapped to a controller named <<operationController>>.execute method
 const buildOperations = (apiDocumentFilepath) => {
@@ -78,16 +63,13 @@ exports.start = async ({
     server = app.listen(appPort);
 
     // Init Security
-    security.init(app, httpsAlways);
+    securityInfra.init(app, httpsAlways);
 
     // Enable CORS
     if (enableCors) {
       container.getLogger().info(`${MODULE_NAME} (MID) --> Enabling CORS`);
       app.use(cors());
     }
-
-    // Build Operations
-    const operations = buildOperations(apiDocumentFilepath);
 
     // Initialize ExpressOpenApi
     expressOpenapi.initialize({
@@ -96,9 +78,9 @@ exports.start = async ({
       consumesMiddleware: {
         'application/json': bodyParser.json(),
       },
-      errorMiddleware: errorHandler,
+      errorMiddleware: container.get('errorHandler').commonErrorHandler,
       // Put your operation controllers here
-      operations,
+      operations: buildOperations(apiDocumentFilepath),
     });
 
     // Expose documentation using swagger-ui-express
@@ -106,7 +88,7 @@ exports.start = async ({
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     // Specific route for handle the 404 route not found
-    app.use(routeNotFoundErrorHandler);
+    app.use(container.get('errorHandler').routeNotFoundErrorHandler);
 
     const appServerStatus = {
       appPort,

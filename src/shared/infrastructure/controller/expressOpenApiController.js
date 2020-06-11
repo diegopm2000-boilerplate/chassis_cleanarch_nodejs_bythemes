@@ -69,21 +69,16 @@ const prepareParams = (req, options) => {
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.execute = async (req, res, next, options) => {
-  try {
-    container.getLogger().info(`${MODULE_NAME} (IN) --> req: <<req>>: res: <<res>>, next: <<next>>, options: ${JSON.stringify(options)}`);
+  container.getLogger().info(`${MODULE_NAME} (IN) --> req: <<req>>: res: <<res>>, next: <<next>>, options: ${JSON.stringify(options)}`);
 
-    // Prepare params
-    const ucParams = prepareParams(req, options);
-    container.getLogger().debug(`${MODULE_NAME} (MID) --> ucParams: ${JSON.stringify(ucParams)}`);
+  // Prepare params
+  const ucParams = prepareParams(req, options);
+  container.getLogger().debug(`${MODULE_NAME} (MID) --> ucParams: ${JSON.stringify(ucParams)}`);
 
-    // Call Use Case
-    const result = await ucCaller(options.uc, ucParams);
+  // Call Use Case
+  const result = await ucCaller(options.uc, ucParams);
 
-    // Return result
-    container.getLogger().info(`${MODULE_NAME} (OUT) --> result: ${JSON.stringify(result)}`);
-    res.status(result.code).json(result.data);
-  } catch (error) {
-    container.getLogger().error(error.stack);
-    next(new Error('Internal Error'));
-  }
+  // Return result
+  container.getLogger().info(`${MODULE_NAME} (OUT) --> result: ${JSON.stringify(result)}`);
+  res.status(result.code).json(result.data);
 };
