@@ -15,7 +15,7 @@ exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, log
   }
 
   const wasDeleted = await commonProxyRepository.get('deleteGamesystemRepository').execute(id);
-  logger.info(`${MODULE_NAME} (MID) --> wasDeleted: ${JSON.stringify(wasDeleted)}`);
+  logger.debug(`${MODULE_NAME} (MID) --> wasDeleted: ${JSON.stringify(wasDeleted)}`);
 
   // Return result
   return presenter.presentResultOfDeletion(MODULE_NAME, logger, wasDeleted);

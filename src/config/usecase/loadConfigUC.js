@@ -3,7 +3,7 @@
 const MODULE_NAME = '[loadConfig UC]';
 
 exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, logger, params) => {
-  logger.info(`${MODULE_NAME} (IN) --> params: ${JSON.stringify(params)}`);
+  logger.debug(`${MODULE_NAME} (IN) --> params: ${JSON.stringify(params)}`);
 
   // IN parameters
   const {

@@ -5,7 +5,7 @@ const { Gamesystem } = require('../domain/Gamesystem');
 const MODULE_NAME = '[updateGamesystem UC]';
 
 exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, logger, params) => {
-  logger.info(`${MODULE_NAME} (IN) --> params: ${JSON.stringify(params)}`);
+  logger.debug(`${MODULE_NAME} (IN) --> params: ${JSON.stringify(params)}`);
 
   // Business IN parameters
   const { gamesystemId: id, dataIN } = params;
@@ -14,7 +14,7 @@ exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, log
   data.id = id;
 
   // Create Domain Object
-  const gamesystemDO = new Gamesystem(data);
+  const gamesystemDO = new Gamesystem(data, commonProxyInfra.get('schemaValidatorInfra'));
   if (gamesystemDO.errors && gamesystemDO.errors.length > 0) {
     return presenter.presentConflict(MODULE_NAME, logger, gamesystemDO.errors);
   }
@@ -34,7 +34,7 @@ exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, log
 
   // Persistencia
   const innerResult = await commonProxyRepository.get('updateGamesystemRepository').execute(id, gamesystemDO);
-  logger.info(`${MODULE_NAME} (MID) --> innerResult: ${JSON.stringify(innerResult)}`);
+  logger.debug(`${MODULE_NAME} (MID) --> innerResult: ${JSON.stringify(innerResult)}`);
 
   // Load the updated object
   const userUpdated = await commonProxyRepository.get('getGamesystemByIdRepository').execute(id);

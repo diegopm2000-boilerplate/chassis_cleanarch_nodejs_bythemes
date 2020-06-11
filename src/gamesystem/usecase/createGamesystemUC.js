@@ -5,7 +5,7 @@ const { Gamesystem } = require('../domain/Gamesystem');
 const MODULE_NAME = '[createGamesystem UC]';
 
 exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, logger, params) => {
-  logger.info(`${MODULE_NAME} (IN) --> params: ${JSON.stringify(params)}`);
+  logger.debug(`${MODULE_NAME} (IN) --> params: ${JSON.stringify(params)}`);
 
   // IN parameters
   const { dataIN } = params;
@@ -15,7 +15,7 @@ exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, log
   data.id = commonProxyInfra.get('uniqIdGeneratorInfra').generateUniqId();
 
   // Create Domain Object
-  const gamesystemDO = new Gamesystem(data);
+  const gamesystemDO = new Gamesystem(data, commonProxyInfra.get('schemaValidatorInfra'));
   if (gamesystemDO.errors && gamesystemDO.errors.length > 0) {
     return presenter.presentConflict(MODULE_NAME, logger, gamesystemDO.errors);
   }
@@ -29,7 +29,7 @@ exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, log
 
   // Persistence
   const innerResult = await commonProxyRepository.get('createGamesystemRepository').execute(gamesystemDO);
-  logger.info(`${MODULE_NAME} (MID) --> innerResult: ${JSON.stringify(innerResult)}`);
+  logger.debug(`${MODULE_NAME} (MID) --> innerResult: ${JSON.stringify(innerResult)}`);
 
   // Build & Return Result
   return presenter.presentCreatedObject(MODULE_NAME, logger, innerResult);
