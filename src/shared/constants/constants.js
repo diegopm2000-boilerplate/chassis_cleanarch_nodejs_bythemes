@@ -4,6 +4,8 @@ exports.TOKEN_NAME = 'tokenwithbearer';
 
 exports.CONFIG_BASEPATH = './config';
 
+exports.APIDOC_BASEPATH = './src/shared/infrastructure/api';
+
 exports.COMMON_HTTP_PROXY_CONTROLLER = 'commonHttpProxyController';
 
 exports.HTTP_COMMON_PRESENTER = 'httpObjectPresenter';

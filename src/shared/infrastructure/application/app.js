@@ -1,8 +1,8 @@
 // app.js
 
-const container = require('../container/container');
+const _ = require('lodash');
 
-const apiserver = require('../server/openapiexpress');
+const container = require('../container/container');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Constants & Properties
@@ -10,65 +10,24 @@ const apiserver = require('../server/openapiexpress');
 
 const MODULE_NAME = '[App]';
 
-// Config sources
-const YAML_FILE = 'YAML_FILE';
-const GIT = 'GIT';
-
-const APIDOC_BASEPATH = './src/shared/infrastructure/api';
-
 // //////////////////////////////////////////////////////////////////////////////
-// Private Functions
+// Private functions
 // //////////////////////////////////////////////////////////////////////////////
 
-const loadEnvVars = () => {
-  const funcName = loadEnvVars.name;
-  container.getLogger().debug(`${MODULE_NAME}${funcName} (IN) --> no params`);
-
-  const result = {
-    configSource: process.env.NODE_CONFIG_SOURCE_APP,
-    configFileName: process.env.NODE_CONFIG_FILE,
-    configPort: process.env.NODE_CONFIG_PORT_APP,
-    apiDoc: process.env.NODE_CONFIG_APIFILE,
-    configSpringCfg: process.env.NODE_CONFIG_SPRINGCFG_ENDPOINT,
-  };
-
-  container.getLogger().debug(`${MODULE_NAME}${funcName} (OUT) --> result: ${JSON.stringify(result)}`);
-
-  return result;
-};
-
-// TODO habría que montar un controlador para esto
-
-const initConfig = async (envVars, logger) => {
-  const funcName = initConfig.name;
-  logger.debug(`${MODULE_NAME}:${funcName} (IN) --> envVars: ${JSON.stringify(envVars)}`);
-
-  if (envVars.configSource !== YAML_FILE && envVars.configSource !== GIT) {
-    const msgError = 'Config Source not valid';
-    logger.error(`${MODULE_NAME}:${funcName} (ERROR) --> error.message: ${msgError}`);
-    throw new Error(msgError);
+const initModules = async (config, logger) => {
+  logger.debug(`${MODULE_NAME} initModules (IN) --> config: <<config>>, logger: <<logger>>`);
+  for (let i = 0; i < config.modules.length; i += 1) {
+    const moduleData = config.modules[i];
+    logger.debug(`${MODULE_NAME} initModules (MID) --> module to init: ${JSON.stringify(moduleData)}`);
+    const module = container.get(`bootstrap${_.upperFirst(moduleData.name)}`);
+    if (moduleData.isAsync) {
+      // eslint-disable-next-line no-await-in-loop
+      await module.init(config);
+    } else {
+      module.init(config);
+    }
   }
-
-  const endpoint = envVars.configSpringCfg;
-  const initialConfigRepository = (YAML_FILE === envVars.configSource) ? 'fileConfigRepository' : 'remoteConfigRepository';
-  const filename = envVars.configFileName;
-  const loadConfigUC = container.get('loadConfigUC');
-
-  const repository = container.get('commonProxyRepository');
-  const infra = container.get('commonProxyInfra');
-  const presenter = container.get('objectPresenter');
-
-  const params = {
-    filename,
-    endpoint,
-    initialConfigRepository,
-    finalConfigRepository: 'containerConfigRepository',
-  };
-
-  const config = await loadConfigUC.execute(repository, infra, presenter, logger, params);
-
-  logger.debug(`${MODULE_NAME}:${funcName} (OUT) --> config: ${JSON.stringify(config)}`);
-  return config;
+  logger.debug(`${MODULE_NAME} initModules (OUT) --> modules initialized OK!`);
 };
 
 // //////////////////////////////////////////////////////////////////////////////
@@ -93,9 +52,6 @@ exports.init = async () => {
     logger = container.getLogger();
     logger.info(`${MODULE_NAME} (IN) --> Initializing Application...`);
 
-    // Init Environment Variables
-    const envVars = loadEnvVars();
-
     // Init Container
     container.init({ loggerModuleName: 'logColorLogger', loadingMethod: container.LOADING_METHOD_FROM_FOLDER });
     logger.info(`${MODULE_NAME} (MID) --> Container initialized OK`);
@@ -106,24 +62,17 @@ exports.init = async () => {
     logger.debug(`${MODULE_NAME} (MID) --> Logger initialized OK`);
 
     // Init Configuration
-    const config = await initConfig(envVars, logger);
+    const config = await container.get('bootstrapConfig').init(logger);
     logger.debug(`${MODULE_NAME} (MID) --> Config initialized OK: ${JSON.stringify(config)}`);
 
+    // Init Modules
+    await initModules(config, logger);
+
     // Init Sequelize & Models
-    container.getSequelizeInfra().init(config.database);
+    // initSequelize(config);
 
-    // options passed to apiserver
-    const options = {
-      port: envVars.configPort,
-      apiDocumentFilepath: `${APIDOC_BASEPATH}/${envVars.apiDoc}`,
-      serverTimeout: config.express.timeout,
-      enableCors: config.express.enableCors,
-      httpsAlways: config.express.httpsAlways,
-      privateRouting: config.express.privateRouting,
-    };
-
-    // Start api server
-    await apiserver.start(options);
+    // Init Api Server
+    // await initApiServer(config);
 
     logger.info(`${MODULE_NAME} (OUT) --> result: ${true}`);
     return true;

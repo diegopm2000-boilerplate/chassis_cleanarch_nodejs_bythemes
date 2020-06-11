@@ -14,10 +14,3 @@ env | grep '^NODE_CONFIG_SPRINGCFG_ENDPOINT='
 export NODE_CONFIG_FILE="chassis-cleanarch-dev.yaml"
 env | grep '^NODE_CONFIG_FILE='
 
-# App Port
-export NODE_CONFIG_PORT_APP="8080"
-env | grep '^NODE_CONFIG_PORT_APP='
-
-# Api File
-export NODE_CONFIG_APIFILE="openapi.yaml"
-env | grep '^NODE_CONFIG_APIFILE='
