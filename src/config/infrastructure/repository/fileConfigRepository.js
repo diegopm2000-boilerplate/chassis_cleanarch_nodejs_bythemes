@@ -1,10 +1,9 @@
 // fileConfigRepository.js
 
 const container = require('../../../shared/infrastructure/container/container');
-
-const CONFIG_BASEPATH = './config';
+const constants = require('../../../shared/constants/constants');
 
 exports.getConfig = async (filename) => {
-  const result = await container.get('fileInfra').loadObjFromFile(`${CONFIG_BASEPATH}/${filename}`);
+  const result = await container.get('fileInfra').loadObjFromFile(`${constants.CONFIG_BASEPATH}/${filename}`);
   return result;
 };

@@ -1,6 +1,6 @@
 app:
   appName: Clean Architecture - NodeJS - Organization by themes
-  description: Demo of Clean Architecture in NodeJS by themes
+  description: Demo of Clean Architecture in NodeJS using a organization of componentes by themes
   environment: dev
 log:  
   level: debug # modes available orderer by magnitude: error, warning, info, debug
