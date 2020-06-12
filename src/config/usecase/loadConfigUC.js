@@ -16,11 +16,11 @@ exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, log
     throw new Error(msgError);
   }
 
-  // Set the initial config repository
-  const initialConfigRepository = (bootstrapEnvVars.configSource === 'YAML_FILE') ? 'fileConfigRepository' : 'remoteConfigRepository';
+  // Set the origin config repository
+  const originConfigRepository = (bootstrapEnvVars.configSource === 'YAML_FILE') ? 'fileConfigRepository' : 'remoteConfigRepository';
 
   // Load config from initial repository
-  const config = await commonProxyRepository.get(initialConfigRepository).getConfig(bootstrapEnvVars.configFileName, bootstrapEnvVars.endpoint);
+  const config = await commonProxyRepository.get(originConfigRepository).getConfig(bootstrapEnvVars.configFileName, bootstrapEnvVars.endpoint);
   logger.debug(`${MODULE_NAME} (MID) --> config loaded from initial Repository`);
 
   // Save config to final repository
