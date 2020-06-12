@@ -88,8 +88,7 @@ exports.presentObjectIfFound = (moduleName, logger, objectFound) => {
 exports.presentConflict = (moduleName, logger, errors) => {
   let message;
   if (Array.isArray(errors)) {
-    // eslint-disable-next-line prefer-destructuring
-    message = errors[0];
+    [message] = errors;
   } else {
     message = errors;
   }
