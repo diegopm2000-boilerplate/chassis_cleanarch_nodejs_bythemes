@@ -126,6 +126,7 @@ paths:
           required: true
           schema:
             type: string
+            format: uuid
 
       responses: 
         "200": 
@@ -159,6 +160,7 @@ paths:
           required: true
           schema:
             type: string
+            format: uuid
       responses: 
         "200": 
           description: Gamesystem updated OK and data returned
@@ -185,6 +187,7 @@ paths:
           required: true
           schema:
             type: string
+            format: uuid
       responses: 
         "204": 
           description: Gamesystem deleted OK, no data returned
@@ -243,6 +246,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
       required:  ['id']
       additionalProperties: false
 
