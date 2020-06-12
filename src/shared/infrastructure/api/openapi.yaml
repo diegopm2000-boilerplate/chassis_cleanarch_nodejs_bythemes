@@ -17,7 +17,7 @@ paths:
     get:
       summary: Healthcheck of the application
       tags:
-        - "Healthcheck"
+        - Healthcheck
       operationId: healthcheck
       responses: 
         "200": 
@@ -25,18 +25,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: '#/components/schemas/Success'
               example:
                 message: 'OK'
-        "500":
-          description: Internal Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InnerErrorResponse'
-              example:
-                code: 500
-                message: Internal Error
 
   # ##################################################################
   # Config
@@ -46,7 +37,7 @@ paths:
     get:
       summary: Get the application configuration. Don't expose this method in production environment!!!
       tags:
-        - "Configuration"
+        - Configuration
       operationId: getConfig
       responses: 
         "200": 
@@ -54,20 +45,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ObjectResponse'
+                $ref: '#/components/schemas/Object'
               example:
-                message: 'OK'
-        "500":
-          description: Internal Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InnerErrorResponse'
-              example:
-                code: 500
-                message: Internal Error
-
-  
+                app:
+                  appName: Clean Architecture - NodeJS - Organization by themes
+                  description: Demo of Clean Architecture in NodeJS using a organization of componentes by themes
+                  environment: dev
+        
   # ##################################################################
   # Gamesystems
   # ##################################################################
@@ -84,14 +68,31 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/GamesystemCreationData"
+            example:
+              id: xxxxxxxxxxxxxxxxx
+              name: a new awesome gamesystem
+              description: a new awesome gamesystem
+
       responses: 
         "201": 
-          description: Gamesystem created OK and returned 
+          description: Gamesystem created OK and returned
           content:
             application/json:
               schema: 
                 $ref: "#/components/schemas/GamesystemData"
-
+              example:
+                id: xxxxxxxxxxxxxxxxx
+                name: a new awesome gamesystem
+                description: a new awesome gamesystem
+        "409": 
+          description: Conflict
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Error"
+              example:
+                code: 409
+                message: There is a previous gamesystem with the same name in the system
     get:
       summary: Get all gamesystems
       tags:
@@ -99,11 +100,18 @@ paths:
       operationId: getAllGamesystems
       responses: 
         "200": 
-          description: Gamesystem created OK and gamesystem data returned
+          description: Data returned
           content:
             application/json:
               schema: 
                 $ref: "#/components/schemas/GamesystemDataList"
+              example:
+                - id: xxxxxxxxxxxxxxxxx
+                  name: a new awesome gamesystem
+                  description: a new awesome gamesystem
+                - id: yyyyyyyyyyyyyyyyy
+                  name: another stuff of gamesystem
+                  description: another stuff of gamesystem
 
   /gamesystems/{gamesystemId}:
     get:
@@ -126,6 +134,12 @@ paths:
             application/json:
               schema: 
                 $ref: "#/components/schemas/GamesystemData"
+              example:
+                id: xxxxxxxxxxxxxxxxx
+                name: a new awesome gamesystem
+                description: a new awesome gamesystem
+        "404": 
+          $ref: '#/components/responses/ObjectNotFoundResponse'
 
     put:
       summary: Update the gamesystem by Id
@@ -152,6 +166,12 @@ paths:
             application/json:
               schema: 
                 $ref: "#/components/schemas/GamesystemData"
+              example:
+                id: xxxxxxxxxxxxxxxxx
+                name: an updated awesome gamesystem
+                description: an updated awesome gamesystem
+        "404": 
+          $ref: '#/components/responses/ObjectNotFoundResponse'
 
     delete:
       summary: Delete the gamesystem by Id
@@ -168,18 +188,37 @@ paths:
       responses: 
         "204": 
           description: Gamesystem deleted OK, no data returned
+        "404": 
+          $ref: '#/components/responses/ObjectNotFoundResponse'
 
 components:
+
+  # ##################################################################
+  # RESPONSES
+  # ##################################################################
+
+  responses:
+
+    ObjectNotFoundResponse:
+      description: Object not found
+      content:
+        application/json:
+          schema: 
+            $ref: "#/components/schemas/Error"
+          example:
+            code: 404
+            message: Object not found in the system
+
+  # ##################################################################
+  # SCHEMAS
+  # ##################################################################
+
   schemas:
 
-    # ##################################################################
-    # RESPONSES
-    # ##################################################################
-
-    ObjectResponse:
+    Object:
       type: object
 
-    SuccessResponse:
+    Success:
       type: object
       properties:
         message:
@@ -187,7 +226,7 @@ components:
       required: ['message']
       additionalProperties: false
 
-    InnerErrorResponse:
+    Error:
       type: object
       properties:
         code:
@@ -236,4 +275,3 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/GamesystemData"
-
