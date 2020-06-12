@@ -10,9 +10,9 @@ const OBJ_CREATED_PRESENT = 'objCreatedPresent';
 const OBJ_DELETED_PRESENT = 'objDeletedPresent';
 const OBJ_NOT_FOUND_PRESENT = 'objNotFoundPresent';
 const OBJ_MOD_CONFLICT_PRESENT = 'objModConflictPresent';
-const OBJ_RELATIONSHIP_NOT_FOUND_PRESENT = 'relationshipNotFoundPresent';
-const OBJ_NOT_AUTHENTICATED_PRESENT = 'notAuthenticatedPresent';
 const OBJ_NOT_AUTHORIZED_PRESENT = 'notAuthorizedPresent';
+const OBJ_NOT_AUTHENTICATED_PRESENT = 'notAuthenticatedPresent';
+const OBJ_RELATIONSHIP_NOT_FOUND_PRESENT = 'relationshipNotFoundPresent';
 
 // //////////////////////////////////////////////////////////////////////////////
 // Private methods
