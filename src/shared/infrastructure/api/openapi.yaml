@@ -197,9 +197,9 @@ components:
       required: ['code', 'message']
       additionalProperties: false
 
-    # Gamesystems
+    # Id Data
 
-    GamesystemIdData:
+    IdData:
       type: object
       properties:
         id:
@@ -207,7 +207,9 @@ components:
       required:  ['id']
       additionalProperties: false
 
-    BasicGamesystemData:
+    # Gamesystems
+
+    GamesystemBasicData:
       type: object 
       properties: 
         name:
@@ -219,16 +221,16 @@ components:
 
     GamesystemData:
       allOf:
-        - $ref: '#/components/schemas/BasicGamesystemData'
-        - $ref: '#/components/schemas/GamesystemIdData'
+        - $ref: '#/components/schemas/IdData'
+        - $ref: '#/components/schemas/GamesystemBasicData'
     
     GamesystemCreationData:
       allOf:
-        - $ref: '#/components/schemas/BasicGamesystemData'
+        - $ref: '#/components/schemas/GamesystemBasicData'
 
     GamesystemUpdateData:
       allOf:
-        - $ref: '#/components/schemas/BasicGamesystemData'
+        - $ref: '#/components/schemas/GamesystemBasicData'
 
     GamesystemDataList:
       type: array
