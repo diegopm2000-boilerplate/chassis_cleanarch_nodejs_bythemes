@@ -22,14 +22,11 @@ const present = (options) => {
   let result;
 
   switch (options.case) {
-    case OBJ_PRESENT:
-      result = { code: 200, data: options.obj };
-      break;
-    case OBJ_LIST_PRESENT:
-      result = { code: 200, data: options.obj };
+    case OBJ_PRESENT: case OBJ_LIST_PRESENT:
+      result = { code: 200, data: options.object };
       break;
     case OBJ_CREATED_PRESENT:
-      result = { code: 201, data: options.obj };
+      result = { code: 201, data: options.object };
       break;
     case OBJ_DELETED_PRESENT:
       result = { code: 204, data: null };
@@ -68,48 +65,33 @@ exports.presentNotAuthenticated = (moduleName, logger) => present({ moduleName, 
 exports.presentObjectNotFound = (moduleName, logger) => present({ moduleName, logger, case: OBJ_NOT_FOUND_PRESENT });
 
 exports.presentObject = (moduleName, logger, object) => present({
-  moduleName, logger, case: OBJ_PRESENT, obj: object,
+  moduleName, logger, case: OBJ_PRESENT, object,
 });
 
 exports.presentCreatedObject = (moduleName, logger, object) => present({
-  moduleName, logger, case: OBJ_CREATED_PRESENT, obj: object,
+  moduleName, logger, case: OBJ_CREATED_PRESENT, object,
 });
 
-exports.presentObjectIfFound = (moduleName, logger, objectFound) => {
-  if (objectFound) {
-    return present({
-      moduleName, logger, case: OBJ_PRESENT, obj: objectFound,
-    });
-  }
-
-  return present({ moduleName, logger, case: OBJ_NOT_FOUND_PRESENT });
-};
-
-exports.presentConflict = (moduleName, logger, errors) => {
-  let message;
-  if (Array.isArray(errors)) {
-    [message] = errors;
-  } else {
-    message = errors;
-  }
-
+exports.presentObjectIfFound = (moduleName, logger, object) => {
+  const presentCase = (object) ? OBJ_PRESENT : OBJ_NOT_FOUND_PRESENT;
   return present({
-    moduleName, logger, case: OBJ_MOD_CONFLICT_PRESENT, message,
+    moduleName, logger, case: presentCase, object,
   });
 };
 
 exports.presentResultOfDeletion = (moduleName, logger, wasDeleted) => {
-  if (wasDeleted) {
-    return present({ moduleName, logger, case: OBJ_DELETED_PRESENT });
-  }
-
-  return present({ moduleName, logger, case: OBJ_NOT_FOUND_PRESENT });
+  const presentCase = (wasDeleted) ? OBJ_DELETED_PRESENT : OBJ_NOT_FOUND_PRESENT;
+  return present({ moduleName, logger, case: presentCase });
 };
 
 exports.presentResultOfRelationshipDeletion = (moduleName, logger, wasDeleted) => {
-  if (wasDeleted) {
-    return present({ moduleName, logger, case: OBJ_DELETED_PRESENT });
-  }
+  const presentCase = (wasDeleted) ? OBJ_DELETED_PRESENT : OBJ_RELATIONSHIP_NOT_FOUND_PRESENT;
+  return present({ moduleName, logger, case: presentCase });
+};
 
-  return present({ moduleName, logger, case: OBJ_RELATIONSHIP_NOT_FOUND_PRESENT });
+exports.presentConflict = (moduleName, logger, errors) => {
+  const message = (Array.isArray(errors) && errors.length > 0) ? errors[0] : errors;
+  return present({
+    moduleName, logger, case: OBJ_MOD_CONFLICT_PRESENT, message,
+  });
 };
