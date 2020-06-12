@@ -1,7 +1,7 @@
 // healthcheckController.js
 
 const container = require('../../../shared/infrastructure/container/container');
-const constants = require('../../../shared/constants/constants');
+const constants = require('../../../shared/infrastructure/constants/constants');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Functions

@@ -1,7 +1,7 @@
 // bootstrapExpressOpenApiServer.js
 
 const container = require('../../container/container');
-const constants = require('../../../constants/constants');
+const constants = require('../../constants/constants');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants

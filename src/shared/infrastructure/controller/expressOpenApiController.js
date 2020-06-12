@@ -1,13 +1,13 @@
 // expressOpenApiController.js
 
 const container = require('../container/container');
-const constants = require('../../constants/constants');
+const constants = require('../constants/constants');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Constants & Properties
 // //////////////////////////////////////////////////////////////////////////////
 
-const MODULE_NAME = '[expressOpenApiController]';
+const MODULE_NAME = '[expressOpenApi Controller]';
 
 // //////////////////////////////////////////////////////////////////////////////
 // Private Functions
