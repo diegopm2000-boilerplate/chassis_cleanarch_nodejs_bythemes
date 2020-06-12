@@ -176,14 +176,16 @@ components:
     # RESPONSES
     # ##################################################################
 
+    ObjectResponse:
+      type: object
+
     SuccessResponse:
       type: object
       properties:
         message:
           type: string
-
-    ObjectResponse:
-      type: object
+      required: ['message']
+      additionalProperties: false
 
     InnerErrorResponse:
       type: object
@@ -192,6 +194,8 @@ components:
           type: number
         message:
           type: string
+      required: ['code', 'message']
+      additionalProperties: false
 
     # Gamesystems
 
@@ -200,6 +204,8 @@ components:
       properties:
         id:
           type: string
+      required:  ['id']
+      additionalProperties: false
 
     BasicGamesystemData:
       type: object 
@@ -208,24 +214,21 @@ components:
           type: string
         description:
           type: string
+      required: ['name', 'description']
+      additionalProperties: false
 
     GamesystemData:
       allOf:
         - $ref: '#/components/schemas/BasicGamesystemData'
-        - type: object
-      properties: 
-        id: 
-          type: string
+        - $ref: '#/components/schemas/GamesystemIdData'
     
     GamesystemCreationData:
       allOf:
         - $ref: '#/components/schemas/BasicGamesystemData'
-        - type: object
 
     GamesystemUpdateData:
       allOf:
         - $ref: '#/components/schemas/BasicGamesystemData'
-        - type: object
 
     GamesystemDataList:
       type: array

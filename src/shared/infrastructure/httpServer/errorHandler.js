@@ -17,8 +17,10 @@ const MODULE_NAME = '[error Handler]';
 exports.commonErrorHandler = (err, req, res, next) => {
   container.getLogger().error(`${MODULE_NAME} commonErrorHandler (ERROR) --> error: ${err.stack}`);
 
+  const message = (err.status === 400) ? 'Bad Request' : err.message;
+
   const status = (err.status) ? err.status : 500;
-  const errorObj = { code: status, message: err.message };
+  const errorObj = { code: status, message };
   res.status(status).json(errorObj);
 };
 
