@@ -9,6 +9,7 @@ const container = require('../container/container');
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.get = (nameRepository) => {
+  // TODO hay que montar de forma generica los origin y destiny repositories
   if (nameRepository.endsWith('ConfigRepository')) {
     return container.get(nameRepository);
   }

@@ -68,7 +68,7 @@ const prepareParams = (req, options) => {
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.execute = async (req, res, next, options) => {
-  container.getLogger().info(`${MODULE_NAME} (IN) --> req: <<req>>: res: <<res>>, next: <<next>>, options: ${JSON.stringify(options)}`);
+  container.getLogger().debug(`${MODULE_NAME} (IN) --> req: <<req>>: res: <<res>>, next: <<next>>, options: ${JSON.stringify(options)}`);
 
   // Prepare params
   const ucParams = prepareParams(req, options);
@@ -78,6 +78,6 @@ exports.execute = async (req, res, next, options) => {
   const result = await ucCaller(options.uc, ucParams);
 
   // Return result
-  container.getLogger().info(`${MODULE_NAME} (OUT) --> result: ${JSON.stringify(result)}`);
+  container.getLogger().debug(`${MODULE_NAME} (OUT) --> result: ${JSON.stringify(result)}`);
   res.status(result.code).json(result.data);
 };

@@ -46,7 +46,7 @@ exports.init = async () => {
     // Init Modules
     await container.get('bootstrapModules').init(config);
 
-    logger.debug(`${MODULE_NAME} (OUT) --> result: ${true}`);
+    logger.info(`${MODULE_NAME} (OUT) --> result: ${true}`);
     return true;
   } catch (error) {
     logger.error(`${MODULE_NAME} (ERROR) --> error: ${error.stack}`);

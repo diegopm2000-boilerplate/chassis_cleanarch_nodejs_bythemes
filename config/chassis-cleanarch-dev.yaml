@@ -9,13 +9,13 @@ api:
 express:
   port: 8080
   enableCors: false
-  timeout: 10s
+  serverTimeout: 10s
   httpsAlways: false
 modules:
-  - name: expressOpenApiServer
-    isAsync: true
   - name: sequelize
     isAsync: false
+  - name: expressOpenApiServer
+    isAsync: true
 database:
   sequelize:
     dbname: gamecollector-db

@@ -1,6 +1,6 @@
 // loadConfigUC.js
 
-const MODULE_NAME = '[loadConfigEnhanced UC]';
+const MODULE_NAME = '[loadConfig UC]';
 
 exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, logger, params) => {
   logger.debug(`${MODULE_NAME} (IN) --> params: ${JSON.stringify(params)}`);
