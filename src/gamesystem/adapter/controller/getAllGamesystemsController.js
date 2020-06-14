@@ -1,17 +1,28 @@
 // getAllGamesystemsController.js
 
-const container = require('../../../shared/infrastructure/container/container');
-const constants = require('../../../shared/infrastructure/constants/constants');
+const getAllGamesystemsUC = require('../../usecase/getAllGamesystemsUC');
+const presenter = require('../../../shared/adapter/presenter/httpObjectPresenter');
+
+// let requestParser;
+let logger;
+let gamesystemRepository;
+
+exports.init = (gamesystemRepositoryIN, loggerIN) => {
+  // requestParser = dependencies.requestParser;
+  logger = loggerIN;
+  gamesystemRepository = gamesystemRepositoryIN;
+};
 
 exports.execute = async (req, res, next) => {
   try {
-    const options = {
-      reqOptions: {},
-      uc: 'getAllGamesystemsUC',
-    };
-    container.get(constants.COMMON_HTTP_PROXY_CONTROLLER).execute(req, res, next, options);
+    // const reqOptions = {};
+    // const params = requestParser(reqOptions);
+
+    const result = await getAllGamesystemsUC.execute(gamesystemRepository, presenter, logger);
+
+    res.status(result.code).json(result.data);
   } catch (err) {
-    container.getLogger().error(err.stack);
+    logger.error(err.stack);
     next(new Error('Internal Error'));
   }
 };

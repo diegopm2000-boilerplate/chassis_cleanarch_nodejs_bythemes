@@ -1,0 +1,1 @@
+// SequelizeCommonRepository.js

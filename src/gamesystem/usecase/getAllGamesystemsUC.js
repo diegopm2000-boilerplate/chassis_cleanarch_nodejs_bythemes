@@ -2,10 +2,10 @@
 
 const MODULE_NAME = '[getAllGamesystems UC]';
 
-exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, logger, params) => {
-  logger.debug(`${MODULE_NAME} (IN) --> params: ${JSON.stringify(params)}`);
+exports.execute = async (gamesystemRepository, presenter, logger) => {
+  logger.debug(`${MODULE_NAME} (IN) --> no params`);
 
-  const innerResult = await commonProxyRepository.get('getAllGamesystemsRepository').execute();
+  const innerResult = await gamesystemRepository.getAll();
   logger.debug(`${MODULE_NAME} (MID) --> innerResult: ${JSON.stringify(innerResult)}`);
 
   // Build & Return result

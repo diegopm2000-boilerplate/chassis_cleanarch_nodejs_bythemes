@@ -2,7 +2,7 @@
 
 const { Sequelize } = require('sequelize');
 
-const container = require('../container/container');
+const container = require('../../container/container');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
