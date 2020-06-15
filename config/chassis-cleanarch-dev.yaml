@@ -16,8 +16,6 @@ modules:
     isAsync: false
   - name: expressOpenApiServer
     isAsync: true
-  - name: controllers
-    isAsync: true
 database:
   sequelize:
     dbname: gamecollector-db

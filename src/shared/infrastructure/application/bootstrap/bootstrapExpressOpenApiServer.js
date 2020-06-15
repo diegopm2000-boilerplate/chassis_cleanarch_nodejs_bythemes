@@ -3,6 +3,8 @@
 const container = require('../../container/container');
 const constants = require('../../constants/constants');
 
+const bootstrapControllers = require('./bootstrapControllers');
+
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
 // //////////////////////////////////////////////////////////////////////////////
@@ -30,8 +32,10 @@ exports.init = async (config) => {
   expressInfra.start(port);
   // Configure Server Security
   securityInfra.init(container.get('expressInfra').getApp(), httpsAlways);
+  // Boostrap Controllers
+  const controllers = bootstrapControllers.init();
   // Add Api Middleware
-  container.get('expressOpenApiInfra').init(container.get('expressInfra').getApp(), apiDocFilepath);
+  container.get('expressOpenApiInfra').init(container.get('expressInfra').getApp(), apiDocFilepath, controllers);
   // Configure Server after Middleware
   expressInfra.configureAfterApiMiddleware();
   // Get the Express Configuration
