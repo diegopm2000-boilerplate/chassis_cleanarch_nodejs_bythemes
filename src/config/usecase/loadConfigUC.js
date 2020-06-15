@@ -2,12 +2,12 @@
 
 const MODULE_NAME = '[loadConfig UC]';
 
-exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, logger, params) => {
-  logger.debug(`${MODULE_NAME} (IN) --> params: ${JSON.stringify(params)}`);
+exports.execute = async (repositories, presenter, logger) => {
+  logger.debug(`${MODULE_NAME} (IN) --> params: no params`);
 
-  // Load params from environment variables
-  const bootstrapEnvVars = commonProxyRepository.get('bootstrapRepository').load();
-  logger.debug(`${MODULE_NAME} (MID) --> bootstrapEnvVars: ${bootstrapEnvVars}`);
+  // Load bootstrap variables from bootstrap Repository
+  const bootstrapEnvVars = await repositories.bootstrap.load();
+  logger.debug(`${MODULE_NAME} (MID) --> bootstrapEnvVars: ${JSON.stringify(bootstrapEnvVars)}`);
 
   // Check the configSource
   if (bootstrapEnvVars.configSource !== 'YAML_FILE' && bootstrapEnvVars.configSource !== 'GIT') {
@@ -16,15 +16,16 @@ exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, log
     throw new Error(msgError);
   }
 
-  // Set the origin config repository
-  const originConfigRepository = (bootstrapEnvVars.configSource === 'YAML_FILE') ? 'fileConfigRepository' : 'remoteConfigRepository';
+  let config;
+  if (bootstrapEnvVars.configSource === 'YAML_FILE') {
+    config = await repositories.originPrimary.get({ filename: bootstrapEnvVars.configFileName });
+  } else {
+    config = await repositories.originSecondary.get({ filename: bootstrapEnvVars.configFileName, endpoint: bootstrapEnvVars.endpoint });
+  }
+  logger.debug(`${MODULE_NAME} (MID) --> config: ${JSON.stringify(config)}`);
 
-  // Load config from initial repository
-  const config = await commonProxyRepository.get(originConfigRepository).getConfig(bootstrapEnvVars.configFileName, bootstrapEnvVars.endpoint);
-  logger.debug(`${MODULE_NAME} (MID) --> config loaded from initial Repository`);
-
-  // Save config to final repository
-  await commonProxyRepository.get('containerConfigRepository').setConfig(config);
+  // Save config to destiny repository
+  await repositories.destiny.set({ data: config });
   logger.debug(`${MODULE_NAME} (MID) --> config stored in destiny Repository`);
 
   // Build & Return result

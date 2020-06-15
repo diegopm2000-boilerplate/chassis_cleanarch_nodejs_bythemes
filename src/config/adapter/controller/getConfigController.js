@@ -1,18 +1,27 @@
 // getConfigController.js
 
-const container = require('../../../shared/infrastructure/container/container');
-const constants = require('../../../shared/infrastructure/constants/constants');
+const getConfigUC = require('../../usecase/getConfigUC');
+const presenter = require('../../../shared/adapter/presenter/httpObjectPresenter');
+
+// let requestParser;
+let logger;
+let configRepository;
+
+exports.init = (configRepositoryIN, loggerIN) => {
+  // requestParser = dependencies.requestParser;
+  logger = loggerIN;
+  configRepository = configRepositoryIN;
+};
 
 exports.execute = async (req, res, next) => {
   try {
-    const options = {
-      reqOptions: {},
-      inmediateOptions: { finalConfigRepository: 'containerConfigRepository' },
-      uc: 'getConfigUC',
-    };
-    container.get(constants.COMMON_HTTP_PROXY_CONTROLLER).execute(req, res, next, options);
+    // TODO poner aquí una traza general a todos los controllers
+
+    const result = await getConfigUC.execute(configRepository, presenter, logger);
+
+    res.status(result.code).json(result.data);
   } catch (err) {
-    container.getLogger().error(err.stack);
+    logger.error(err.stack);
     next(new Error('Internal Error'));
   }
 };
