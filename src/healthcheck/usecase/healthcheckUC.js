@@ -6,8 +6,8 @@ const MODULE_NAME = '[healthcheck UC]';
 // Public Functions
 // //////////////////////////////////////////////////////////////////////////////
 
-exports.execute = async (commonProxyRepository, commonProxyInfra, presenter, logger, params) => {
-  logger.debug(`${MODULE_NAME} (IN) --> params: ${JSON.stringify(params)}`);
+exports.execute = async (presenter, logger) => {
+  logger.debug(`${MODULE_NAME} (IN) --> params: no params`);
 
   // Prepare message result
   const innerResult = { message: 'OK' };

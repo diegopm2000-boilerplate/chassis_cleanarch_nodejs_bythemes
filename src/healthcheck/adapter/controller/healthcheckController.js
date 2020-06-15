@@ -1,21 +1,34 @@
 // healthcheckController.js
 
-const container = require('../../../shared/infrastructure/container/container');
-const constants = require('../../../shared/infrastructure/constants/constants');
+const healthcheckUC = require('../../usecase/healthcheckUC');
+const presenter = require('../../../shared/adapter/presenter/httpObjectPresenter');
 
 // //////////////////////////////////////////////////////////////////////////////
-// Public Functions
+// Properties & Constants
 // //////////////////////////////////////////////////////////////////////////////
+
+const MODULE_NAME = '[healthcheck Controller]';
+
+let logger;
+
+// //////////////////////////////////////////////////////////////////////////////
+// Public methods
+// //////////////////////////////////////////////////////////////////////////////
+
+exports.init = (loggerIN) => {
+  logger = loggerIN;
+};
 
 exports.execute = async (req, res, next) => {
   try {
-    const options = {
-      reqOptions: {},
-      uc: 'healthcheckUC',
-    };
-    container.get(constants.COMMON_HTTP_PROXY_CONTROLLER).execute(req, res, next, options);
+    logger.info(`${MODULE_NAME} (IN) --> req: <<req>, res: <<res>>, next: <<next>>`);
+
+    const result = await healthcheckUC.execute(presenter, logger);
+
+    logger.info(`${MODULE_NAME} (OUT) --> result: ${JSON.stringify(result)}`);
+    res.status(result.code).json(result.data);
   } catch (err) {
-    container.getLogger().error(err.stack);
+    logger.error(err.stack);
     next(new Error('Internal Error'));
   }
 };

@@ -11,6 +11,8 @@ const MemoryConfigRepository = require('../../../../config/infrastructure/reposi
 
 const getConfigController = require('../../../../config/adapter/controller/getConfigController');
 
+const healthcheckController = require('../../../../healthcheck/adapter/controller/healthcheckController');
+
 const getAllGamesystemsController = require('../../../../gamesystem/adapter/controller/getAllGamesystemsController');
 const getGamesystemByIdController = require('../../../../gamesystem/adapter/controller/getGamesystemByIdController');
 const createGamesystemController = require('../../../../gamesystem/adapter/controller/createGamesystemController');
@@ -22,6 +24,7 @@ exports.init = () => {
   const gamesystemRepository = new SequelizeGamesystemRepository();
 
   getConfigController.init(memoryConfigRepository, logger);
+  healthcheckController.init(logger);
 
   getAllGamesystemsController.init(gamesystemRepository, logger);
   getGamesystemByIdController.init(requestParser, gamesystemRepository, logger);

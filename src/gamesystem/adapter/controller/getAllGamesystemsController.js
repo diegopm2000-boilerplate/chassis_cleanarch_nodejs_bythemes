@@ -3,9 +3,18 @@
 const getAllGamesystemsUC = require('../../usecase/getAllGamesystemsUC');
 const presenter = require('../../../shared/adapter/presenter/httpObjectPresenter');
 
-// let requestParser;
+// //////////////////////////////////////////////////////////////////////////////
+// Properties & Constants
+// //////////////////////////////////////////////////////////////////////////////
+
+const MODULE_NAME = '[getAllGamesystems Controller]';
+
 let logger;
 let gamesystemRepository;
+
+// //////////////////////////////////////////////////////////////////////////////
+// Public Methods
+// //////////////////////////////////////////////////////////////////////////////
 
 exports.init = (gamesystemRepositoryIN, loggerIN) => {
   // requestParser = dependencies.requestParser;
@@ -15,11 +24,11 @@ exports.init = (gamesystemRepositoryIN, loggerIN) => {
 
 exports.execute = async (req, res, next) => {
   try {
-    // const reqOptions = {};
-    // const params = requestParser(reqOptions);
+    logger.info(`${MODULE_NAME} (IN) --> req: <<req>, res: <<res>>, next: <<next>>`);
 
     const result = await getAllGamesystemsUC.execute(gamesystemRepository, presenter, logger);
 
+    logger.info(`${MODULE_NAME} (OUT) --> result: ${JSON.stringify(result)}`);
     res.status(result.code).json(result.data);
   } catch (err) {
     logger.error(err.stack);
