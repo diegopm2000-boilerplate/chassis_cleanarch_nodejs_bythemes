@@ -1,26 +1,30 @@
-// GenericController.js
+// BaseController
 
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-unused-vars */
 
-class GenericController {
+class BaseController {
   constructor(args) {
-    this.presenter = args.presenter;
     this.UCClass = args.UCClass;
+    this.presenter = args.presenter;
     this.logger = args.logger;
     this.repository = args.repository;
-    this.requestParser = args.requestParser;
+    this.repositories = args.repositories;
     this.schemaValidator = args.schemaValidator;
     this.uniqIdGenerator = args.uniqIdGenerator;
   }
 
-  async execute(req, res, next) {
+  async execute() {
     throw Error('Not defined yet!');
   }
 
   buildUC() {
     return new this.UCClass({
-      presenter: this.presenter, logger: this.logger, repository: this.repository, schemaValidator: this.schemaValidator, uniqIdGenerator: this.uniqIdGenerator,
+      presenter: this.presenter,
+      logger: this.logger,
+      repository: this.repository,
+      repositories: this.repositories,
+      schemaValidator: this.schemaValidator,
+      uniqIdGenerator: this.uniqIdGenerator,
     });
   }
 
@@ -32,10 +36,10 @@ class GenericController {
     this.logger.info(`${className} (OUT) --> result: ${JSON.stringify(result)}`);
   }
 
-  returnResponse(className, result, res) {
+  prepareResponse(className, result) {
     this.logOut(className, result);
-    res.status(result.code).json(result.data);
+    return result;
   }
 }
 
-module.exports = GenericController;
+module.exports = BaseController;

@@ -6,8 +6,9 @@ const RemoteConfigRepository = require('../../../../config/infrastructure/reposi
 const MemoryConfigRepository = require('../../../../config/infrastructure/repository/MemoryConfigRepository');
 // TODO el logger mejor dejarlo detras de una Facade
 const logger = require('../../log/logColorLogger');
-const presenter = require('../../../adapter/presenter/objectPresenter');
-const loadConfigUC = require('../../../../config/usecase/loadConfigUC');
+const objectPresenter = require('../../../adapter/presenter/objectPresenter');
+const LoadConfigController = require('../../../../config/adapter/controller/LoadConfigController');
+const LoadConfigUC = require('../../../../config/usecase/LoadConfigUC');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
@@ -19,8 +20,6 @@ const MODULE_NAME = '[boostrapConfig]';
 // Public Functions
 // //////////////////////////////////////////////////////////////////////////////
 
-// TODO esto no sería un controller?
-
 exports.init = async () => {
   logger.debug(`${MODULE_NAME} initConfig (IN) --> no params`);
 
@@ -31,7 +30,10 @@ exports.init = async () => {
     destiny: new MemoryConfigRepository(),
   };
 
-  const config = await loadConfigUC.execute(repositories, presenter, logger);
+  const loadConfigController = new LoadConfigController({
+    logger, presenter: objectPresenter, UCClass: LoadConfigUC, repositories,
+  });
+  const config = await loadConfigController.execute();
 
   logger.debug(`${MODULE_NAME} initConfig (OUT) --> config: ${JSON.stringify(config)}`);
   return config;

@@ -5,6 +5,7 @@ class BaseUC {
     this.presenter = args.presenter;
     this.logger = args.logger;
     this.repository = args.repository;
+    this.repositories = args.repositories;
     this.schemaValidator = args.schemaValidator;
     this.uniqIdGenerator = args.uniqIdGenerator;
   }

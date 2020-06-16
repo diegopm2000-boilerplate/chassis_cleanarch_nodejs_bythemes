@@ -3,8 +3,8 @@
 const BaseUC = require('../../shared/usecase/BaseUC');
 
 class GetAllGamesystemsUC extends BaseUC {
-  async execute(params) {
-    super.logIn(this.constructor.name, params);
+  async execute() {
+    super.logIn(this.constructor.name);
 
     const innerResult = await this.repository.getAll();
     this.logger.debug(`${this.constructor.name} (MID) --> innerResult: ${JSON.stringify(innerResult)}`);
