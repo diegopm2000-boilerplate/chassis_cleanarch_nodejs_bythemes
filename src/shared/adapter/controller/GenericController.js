@@ -9,6 +9,9 @@ class GenericController {
     this.uc = options.uc;
     this.logger = options.logger;
     this.repository = options.repository;
+    this.requestParser = options.requestParser;
+    this.schemaValidator = options.schemaValidator;
+    this.uniqIdGenerator = options.uniqIdGenerator;
   }
 
   async execute(req, res, next) {

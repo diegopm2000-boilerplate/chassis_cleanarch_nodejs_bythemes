@@ -1,15 +1,15 @@
-// HealthcheckController.js
+// GetAllGamesystemsController.js
 
 const GenericController = require('../../../shared/adapter/controller/GenericController');
 
-class HealthcheckController extends GenericController {
+class GetAllGamesystemsController extends GenericController {
   async execute(req, res, next) {
     try {
-      const moduleName = HealthcheckController.name;
+      const moduleName = GetAllGamesystemsController.name;
 
       this.logger.info(`${moduleName} (IN) --> req: <<req>, res: <<res>>, next: <<next>>`);
 
-      const result = await this.uc.execute(this.presenter, this.logger);
+      const result = await this.uc.execute(this.repository, this.presenter, this.logger);
 
       this.logger.info(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
       res.status(result.code).json(result.data);
@@ -20,4 +20,4 @@ class HealthcheckController extends GenericController {
   }
 }
 
-module.exports = HealthcheckController;
+module.exports = GetAllGamesystemsController;
