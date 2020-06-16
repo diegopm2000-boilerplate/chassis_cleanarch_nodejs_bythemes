@@ -5,9 +5,9 @@ const timeout = require('connect-timeout');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 
-const container = require('../container/container');
 const fileInfra = require('../util/fileInfra');
 const errorHandler = require('./errorHandler');
+const logger = require('../log/logColorLogger');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Constants & Properties
@@ -54,19 +54,19 @@ const errorRouteNotFoundHandler = () => {
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.configureBeforeApiMiddleware = ({ serverTimeout, enableCors, apiDocFilepath }) => {
-  container.getLogger().debug(`${MODULE_NAME} configureBeforeApiMiddleware (IN) --> serverTimeout: ${serverTimeout}},
+  logger.debug(`${MODULE_NAME} configureBeforeApiMiddleware (IN) --> serverTimeout: ${serverTimeout}},
   ebableCors: ${enableCors}, apiDocFiepath: ${apiDocFilepath}`);
   app = express();
 
   // Set Server Timeout
   const expressTimeout = setServerTimeout(serverTimeout);
-  container.getLogger().debug(`${MODULE_NAME} configureBeforeApiMiddleware (MID) --> ServerTimeout to: ${expressTimeout}`);
+  logger.debug(`${MODULE_NAME} configureBeforeApiMiddleware (MID) --> ServerTimeout to: ${expressTimeout}`);
   // Enable Cors
   const expressCorsEnabled = setCors(enableCors);
-  container.getLogger().debug(`${MODULE_NAME} configureBeforeApiMiddleware (MID) --> CORS enabled: ${enableCors}`);
+  logger.debug(`${MODULE_NAME} configureBeforeApiMiddleware (MID) --> CORS enabled: ${enableCors}`);
   // Expose documentation using swagger-ui-express
   exposeDoc(apiDocFilepath);
-  container.getLogger().debug(`${MODULE_NAME} configureBeforeApiMiddleware (MID) --> Api Documentation exposed in path: ${APIDOCS_PATH}`);
+  logger.debug(`${MODULE_NAME} configureBeforeApiMiddleware (MID) --> Api Documentation exposed in path: ${APIDOCS_PATH}`);
   // Save config options in the module
   expressConfig = { expressTimeout, expressCorsEnabled };
 
@@ -82,7 +82,7 @@ exports.getExpressConfig = () => expressConfig;
 exports.getApp = () => app;
 
 exports.start = (port) => {
-  container.getLogger().debug(`${MODULE_NAME} start (IN) --> params: port: ${port}`);
+  logger.debug(`${MODULE_NAME} start (IN) --> params: port: ${port}`);
 
   // Set appPort
   const appPort = port || DEFAULT_PORT;
@@ -91,13 +91,13 @@ exports.start = (port) => {
   // Save port in config
   expressConfig.appPort = appPort;
 
-  container.getLogger().debug(`${MODULE_NAME} start (OUT) --> App Server started at port: ${appPort}`);
+  logger.debug(`${MODULE_NAME} start (OUT) --> App Server started at port: ${appPort}`);
   return appPort;
 };
 
 exports.stop = () => {
-  container.getLogger().debug(`${MODULE_NAME} stop (IN) --> params: no params`);
+  logger.debug(`${MODULE_NAME} stop (IN) --> params: no params`);
   server.close(() => {
-    container.getLogger().info(`${MODULE_NAME} stop (OUT) --> server stopped`);
+    logger.info(`${MODULE_NAME} stop (OUT) --> server stopped`);
   });
 };

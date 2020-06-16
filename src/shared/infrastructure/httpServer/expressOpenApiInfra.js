@@ -4,9 +4,9 @@ const expressOpenapi = require('express-openapi');
 const getMyKeys = require('uas-get-my-keys');
 const bodyParser = require('body-parser');
 
-const container = require('../container/container');
 const fileInfra = require('../util/fileInfra');
 const errorHandler = require('./errorHandler');
+const logger = require('../log/logColorLogger');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Constants & Properties
@@ -15,7 +15,7 @@ const errorHandler = require('./errorHandler');
 const MODULE_NAME = '[ExpressOpenApi Infra]';
 
 const buildOperations = (apiDocumentFilepath, controllers) => {
-  container.getLogger().debug(`${MODULE_NAME} buildOperations (IN) --> apiDocumentFilepath: ${apiDocumentFilepath}, controllers: <<controllers>>`);
+  logger.debug(`${MODULE_NAME} buildOperations (IN) --> apiDocumentFilepath: ${apiDocumentFilepath}, controllers: <<controllers>>`);
 
   const result = {};
 
@@ -23,7 +23,7 @@ const buildOperations = (apiDocumentFilepath, controllers) => {
   // Get the operations from apiDocument
   const innerOperationIds = getMyKeys(objApiDocument, ['operationId']);
   const operationIds = innerOperationIds.operationId;
-  container.getLogger().debug(`${MODULE_NAME} buildOperations (MID) --> operationIds: ${JSON.stringify(operationIds)}`);
+  logger.debug(`${MODULE_NAME} buildOperations (MID) --> operationIds: ${JSON.stringify(operationIds)}`);
 
   if (operationIds != null) {
     if (Array.isArray(operationIds)) {
@@ -36,7 +36,7 @@ const buildOperations = (apiDocumentFilepath, controllers) => {
     }
   }
 
-  container.getLogger().debug(`${MODULE_NAME} buildOperations (OUT) --> result: <<result>>`);
+  logger.debug(`${MODULE_NAME} buildOperations (OUT) --> result: <<result>>`);
   return result;
 };
 
@@ -45,7 +45,7 @@ const buildOperations = (apiDocumentFilepath, controllers) => {
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.init = (app, apiDocFilepath, controllers) => {
-  container.getLogger().debug(`${MODULE_NAME} init (IN) --> app: <<app>>, apiDocFilepath: ${apiDocFilepath}`);
+  logger.debug(`${MODULE_NAME} init (IN) --> app: <<app>>, apiDocFilepath: ${apiDocFilepath}`);
 
   expressOpenapi.initialize({
     app,
@@ -55,5 +55,5 @@ exports.init = (app, apiDocFilepath, controllers) => {
     operations: buildOperations(apiDocFilepath, controllers),
   });
 
-  container.getLogger().debug(`${MODULE_NAME} init (OUT) --> OpenApiExpress Middleware init OK!`);
+  logger.debug(`${MODULE_NAME} init (OUT) --> OpenApiExpress Middleware init OK!`);
 };

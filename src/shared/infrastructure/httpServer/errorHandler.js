@@ -2,7 +2,7 @@
 
 /* eslint-disable no-unused-vars */
 
-const container = require('../container/container');
+const logger = require('../log/logColorLogger');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
@@ -15,7 +15,7 @@ const MODULE_NAME = '[error Handler]';
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.commonErrorHandler = (err, req, res, next) => {
-  container.getLogger().error(`${MODULE_NAME} commonErrorHandler (ERROR) --> error: ${err.stack}`);
+  logger.error(`${MODULE_NAME} commonErrorHandler (ERROR) --> error: ${err.stack}`);
 
   const message = (err.status === 400) ? 'Bad Request' : err.message;
 
@@ -25,7 +25,7 @@ exports.commonErrorHandler = (err, req, res, next) => {
 };
 
 exports.routeNotFoundErrorHandler = (req, res, next) => {
-  container.getLogger().error(`${MODULE_NAME} routeNotFoundErrorHandler (ERROR) --> route not found: method: ${req.method}, path: ${req.path}`);
+  logger.error(`${MODULE_NAME} routeNotFoundErrorHandler (ERROR) --> route not found: method: ${req.method}, path: ${req.path}`);
 
   const errorObj = { code: 404, message: `Cannot ${req.method} ${req.path}` };
   res.status(404).json(errorObj);

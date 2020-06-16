@@ -2,7 +2,10 @@
 
 const _ = require('lodash');
 
-const container = require('../../container/container');
+const logger = require('../../log/logColorLogger');
+
+const bootstrapSequelize = require('./bootstrapSequelize');
+const bootstrapExpressOpenApiServer = require('./bootstrapExpressOpenApiServer');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
@@ -15,11 +18,17 @@ const MODULE_NAME = '[bootstrapModules]';
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.init = async (config) => {
-  container.getLogger().debug(`${MODULE_NAME} initModules (IN) --> config: <<config>>`);
+  logger.debug(`${MODULE_NAME} initModules (IN) --> config: <<config>>`);
+
+  const modules = {
+    bootstrapSequelize,
+    bootstrapExpressOpenApiServer,
+  };
+
   for (let i = 0; i < config.modules.length; i += 1) {
     const moduleData = config.modules[i];
-    container.getLogger().debug(`${MODULE_NAME} initModules (MID) --> module to init: ${JSON.stringify(moduleData)}`);
-    const module = container.get(`bootstrap${_.upperFirst(moduleData.name)}`);
+    logger.debug(`${MODULE_NAME} initModules (MID) --> module to init: ${JSON.stringify(moduleData)}`);
+    const module = modules[`bootstrap${_.upperFirst(moduleData.name)}`];
     if (moduleData.isAsync) {
       // eslint-disable-next-line no-await-in-loop
       await module.init(config);
@@ -27,5 +36,5 @@ exports.init = async (config) => {
       module.init(config);
     }
   }
-  container.getLogger().debug(`${MODULE_NAME} initModules (OUT) --> modules initialized OK!`);
+  logger.debug(`${MODULE_NAME} initModules (OUT) --> modules initialized OK!`);
 };

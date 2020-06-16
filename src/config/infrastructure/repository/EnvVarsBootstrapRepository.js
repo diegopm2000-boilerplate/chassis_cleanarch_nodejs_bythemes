@@ -1,4 +1,4 @@
-// envVarsBootstrapRepository.js
+// EnvironmentBoostrapRepository.js
 
 /* eslint-disable class-methods-use-this */
 

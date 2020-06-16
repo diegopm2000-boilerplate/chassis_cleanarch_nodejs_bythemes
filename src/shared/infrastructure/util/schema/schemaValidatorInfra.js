@@ -3,7 +3,9 @@
 const { Validator } = require('jsonschema');
 const _ = require('lodash');
 
-const container = require('../../container/container');
+const logger = require('../../log/logColorLogger');
+// eslint-disable-next-line no-unused-vars
+const gamesystemSchema = require('./gamesystemSchema');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
@@ -11,26 +13,30 @@ const container = require('../../container/container');
 
 const MODULE_NAME = '[SchemaValidation Infra]';
 
+const schemas = {
+  gamesystemSchema,
+};
+
 // //////////////////////////////////////////////////////////////////////////////
 // Public Functions
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.validate = (instance, objectName) => {
-  container.getLogger().debug(`${MODULE_NAME} validate (IN) --> instance: ${JSON.stringify(instance)}, objectName: ${objectName}`);
+  logger.debug(`${MODULE_NAME} validate (IN) --> instance: ${JSON.stringify(instance)}, objectName: ${objectName}`);
 
   const v = new Validator();
 
-  // Getting the schmea
-  const { schema } = container.get(`${_.lowerFirst(objectName)}Schema`);
+  // Getting the schema
+  const { schema } = schemas[`${_.lowerFirst(objectName)}Schema`];
 
   // Validating the instance with the schema
   const validationResult = v.validate(instance, schema);
-  container.getLogger().debug(`${MODULE_NAME} validate (MID) --> validationResult: ${JSON.stringify(validationResult)}`);
+  logger.debug(`${MODULE_NAME} validate (MID) --> validationResult: ${JSON.stringify(validationResult)}`);
 
   // Preparing Result
   const result = validationResult.errors.map((x) => `${x.property} --> ${x.message}`);
 
-  container.getLogger().debug(`${MODULE_NAME} validate (OUT) --> result: ${JSON.stringify(result)}`);
+  logger.debug(`${MODULE_NAME} validate (OUT) --> result: ${JSON.stringify(result)}`);
 
   return result;
 };

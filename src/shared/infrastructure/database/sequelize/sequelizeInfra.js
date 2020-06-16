@@ -1,14 +1,15 @@
-// sequelizeInfra.js
+// SequelizeInfra.js
 
 const { Sequelize } = require('sequelize');
 
-const container = require('../../container/container');
+const SequelizeGamesystemModel = require('../../../../gamesystem/infrastructure/repository/sequelize/SequelizeGamesystemModel');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
 // //////////////////////////////////////////////////////////////////////////////
 
 let sequelize;
+const models = {};
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Functions
@@ -23,17 +24,9 @@ exports.init = (options) => {
     },
   });
 
-  if (options.models && options.models.length > 0) {
-    options.models.forEach((x) => {
-      container.get(x).init();
-    });
-  }
-
-  if (options.models && options.models.length > 0) {
-    options.models.forEach((x) => {
-      container.get(x).initAssociations();
-    });
-  }
+  models.gameSystemModel = SequelizeGamesystemModel.configure(sequelize);
 };
 
 exports.getSequelize = () => sequelize;
+
+exports.getModel = (nameModel) => models[nameModel];

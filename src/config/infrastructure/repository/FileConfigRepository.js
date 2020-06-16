@@ -1,4 +1,4 @@
-// fileConfigRepository.js
+// FileConfigRepository.js
 
 /* eslint-disable class-methods-use-this */
 

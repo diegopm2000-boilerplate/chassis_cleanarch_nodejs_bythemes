@@ -1,7 +1,8 @@
 // app.js
 
-const container = require('../container/container');
-
+const logger = require('../log/logColorLogger');
+const bootstrapconfig = require('./bootstrap/bootstrapConfig');
+const bootstrapModules = require('./bootstrap/bootstrapModules');
 // //////////////////////////////////////////////////////////////////////////////
 // Constants & Properties
 // //////////////////////////////////////////////////////////////////////////////
@@ -13,9 +14,9 @@ const MODULE_NAME = '[App]';
 // //////////////////////////////////////////////////////////////////////////////
 
 process.on('unhandledRejection', (err, p) => {
-  container.getLogger().error(`${MODULE_NAME} (ERROR) --> An unhandledRejection occurred...`);
-  container.getLogger().error(`${MODULE_NAME} (ERROR) --> Rejected Promise: ${p}`);
-  container.getLogger().error(`${MODULE_NAME} (ERROR) --> Rejection: ${err}`);
+  logger.error(`${MODULE_NAME} (ERROR) --> An unhandledRejection occurred...`);
+  logger.error(`${MODULE_NAME} (ERROR) --> Rejected Promise: ${p}`);
+  logger.error(`${MODULE_NAME} (ERROR) --> Rejection: ${err}`);
 });
 
 // //////////////////////////////////////////////////////////////////////////////
@@ -23,28 +24,27 @@ process.on('unhandledRejection', (err, p) => {
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.init = async () => {
-  let logger;
   try {
-    // Init container with default logger
-    container.defaultInit();
-    logger = container.getLogger();
-    logger.info(`${MODULE_NAME} (IN) --> Initializing Application...`);
+    // // Init container with default logger
+    // container.defaultInit();
+    // logger = logger;
+    // logger.info(`${MODULE_NAME} (IN) --> Initializing Application...`);
 
-    // Init Container
-    container.init('logColorLogger');
-    logger.info(`${MODULE_NAME} (MID) --> Container initialized OK`);
+    // // Init Container
+    // container.init('logColorLogger');
+    // logger.info(`${MODULE_NAME} (MID) --> Container initialized OK`);
 
-    // Init logger
-    logger = container.getLogger();
-    container.getLogger().init({ level: 'debug' });
+    // // Init logger
+    // logger = logger;
+    logger.init({ level: 'debug' });
     logger.info(`${MODULE_NAME} (MID) --> Logger initialized OK`);
 
     // Init Configuration
-    const config = await container.get('bootstrapConfig').init();
+    const config = await bootstrapconfig.init();
     logger.info(`${MODULE_NAME} (MID) --> Config initialized OK: ${JSON.stringify(config)}`);
 
     // Init Modules
-    await container.get('bootstrapModules').init(config);
+    await bootstrapModules.init(config);
 
     logger.info(`${MODULE_NAME} (OUT) --> result: ${true}`);
     return true;

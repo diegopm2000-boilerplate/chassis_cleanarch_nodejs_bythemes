@@ -1,8 +1,8 @@
-// loadConfigUC.js
+// LoadConfigUC.js
 
 const BaseUC = require('../../shared/usecase/BaseUC');
 
-class GetConfigUC extends BaseUC {
+class LoadConfigUC extends BaseUC {
   async execute(params) {
     super.logIn(this.constructor.name, params);
 
@@ -34,4 +34,4 @@ class GetConfigUC extends BaseUC {
   }
 }
 
-module.exports = GetConfigUC;
+module.exports = LoadConfigUC;

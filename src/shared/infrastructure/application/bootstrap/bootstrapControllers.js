@@ -10,6 +10,8 @@ const schemaValidator = require('../../util/schema/schemaValidatorInfra');
 // repositories
 const MemoryConfigRepository = require('../../../../config/infrastructure/repository/MemoryConfigRepository');
 const SequelizeGamesystemRepository = require('../../../../gamesystem/infrastructure/repository/sequelize/SequelizeGamesystemRepository');
+const SequelizeCRUDRepository = require('../../repository/SequelizeCRUDRepository');
+const sequelizeInfra = require('../../database/sequelize/sequelizeInfra');
 
 // use cases
 const HealthcheckUC = require('../../../../healthcheck/usecase/HealthcheckUC');
@@ -26,7 +28,6 @@ const httpObjectPresenter = require('../../../adapter/presenter/httpObjectPresen
 // controllers
 const HealthcheckController = require('../../../../healthcheck/adapter/controller/HealthcheckController');
 const GetConfigController = require('../../../../config/adapter/controller/GetConfigController');
-
 const GetAllGamesystemsController = require('../../../../gamesystem/adapter/controller/GetAllGamesystemsController');
 const GetGamesystemByIdController = require('../../../../gamesystem/adapter/controller/GetGamesystemByIdController');
 const CreateGamesystemController = require('../../../../gamesystem/adapter/controller/CreateGamesystemController');
@@ -35,7 +36,10 @@ const DeleteGamesystemController = require('../../../../gamesystem/adapter/contr
 
 exports.init = () => {
   const memoryConfigRepository = new MemoryConfigRepository();
-  const gamesystemRepository = new SequelizeGamesystemRepository();
+  const sequelizeCRUDRepository = new SequelizeCRUDRepository();
+  const gamesystemRepository = new SequelizeGamesystemRepository({
+    logger, sequelizeCRUDRepository, model: sequelizeInfra.getModel('gameSystemModel'),
+  });
 
   const controllers = {
     healthcheckController: new HealthcheckController(

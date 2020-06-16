@@ -1,4 +1,4 @@
-// configRepository.js
+// ConfigRepository.js
 
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-unused-vars */

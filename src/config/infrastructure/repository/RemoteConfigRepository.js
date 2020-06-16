@@ -1,4 +1,4 @@
-// remoteConfigREpository.js
+// RemoteConfigRepository.js
 
 /* eslint-disable class-methods-use-this */
 
