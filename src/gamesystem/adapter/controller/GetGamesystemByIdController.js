@@ -5,18 +5,17 @@ const GenericController = require('../../../shared/adapter/controller/GenericCon
 class GetGamesystemByIdController extends GenericController {
   async execute(req, res, next) {
     try {
-      const moduleName = GetGamesystemByIdController.name;
-      this.logger.info(`${moduleName} (IN) --> req: <<req>, res: <<res>>, next: <<next>>`);
+      super.logIn(this.constructor.name);
 
       const parseFields = {
         params: ['gamesystemId'],
       };
       const params = this.requestParser.parse(req, parseFields);
 
-      const result = await this.uc.execute(this.repository, this.presenter, this.logger, params);
+      const uc = super.buildUC();
+      const result = await uc.execute(params);
 
-      this.logger.info(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
-      res.status(result.code).json(result.data);
+      super.returnResponse(this.constructor.name, result, res);
     } catch (err) {
       this.logger.error(err.stack);
       next(new Error('Internal Error'));

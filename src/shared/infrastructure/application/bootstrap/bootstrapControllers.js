@@ -12,13 +12,13 @@ const MemoryConfigRepository = require('../../../../config/infrastructure/reposi
 const SequelizeGamesystemRepository = require('../../../../gamesystem/infrastructure/repository/sequelize/SequelizeGamesystemRepository');
 
 // use cases
-const healthcheckUC = require('../../../../healthcheck/usecase/healthcheckUC');
-const getConfigUC = require('../../../../config/usecase/getConfigUC');
-const getAllgamesystemsUC = require('../../../../gamesystem/usecase/getAllGamesystemsUC');
-const getGamesystemByIdUC = require('../../../../gamesystem/usecase/getGamesystemByIdUC');
-const createGamesystemUC = require('../../../../gamesystem/usecase/createGamesystemUC');
-const updateGamesystemUC = require('../../../../gamesystem/usecase/updateGamesystemUC');
-const deleteGamesystemUC = require('../../../../gamesystem/usecase/deleteGamesystemUC');
+const HealthcheckUC = require('../../../../healthcheck/usecase/HealthcheckUC');
+const GetConfigUC = require('../../../../config/usecase/GetConfigUC');
+const GetAllgamesystemsUC = require('../../../../gamesystem/usecase/GetAllGamesystemsUC');
+const GetGamesystemByIdUC = require('../../../../gamesystem/usecase/GetGamesystemByIdUC');
+const CreateGamesystemUC = require('../../../../gamesystem/usecase/CreateGamesystemUC');
+const UpdateGamesystemUC = require('../../../../gamesystem/usecase/UpdateGamesystemUC');
+const DeleteGamesystemUC = require('../../../../gamesystem/usecase/DeleteGamesystemUC');
 
 // presenters
 const httpObjectPresenter = require('../../../adapter/presenter/httpObjectPresenter');
@@ -39,25 +39,25 @@ exports.init = () => {
 
   const controllers = {
     healthcheckController: new HealthcheckController(
-      { logger, presenter: httpObjectPresenter, uc: healthcheckUC },
+      { logger, presenter: httpObjectPresenter, UCClass: HealthcheckUC },
     ),
     getConfigController: new GetConfigController({
-      logger, presenter: httpObjectPresenter, uc: getConfigUC, repository: memoryConfigRepository,
+      logger, presenter: httpObjectPresenter, UCClass: GetConfigUC, repository: memoryConfigRepository,
     }),
     getAllGamesystemsController: new GetAllGamesystemsController({
-      logger, presenter: httpObjectPresenter, uc: getAllgamesystemsUC, repository: gamesystemRepository,
+      logger, presenter: httpObjectPresenter, UCClass: GetAllgamesystemsUC, repository: gamesystemRepository,
     }),
     getGamesystemByIdController: new GetGamesystemByIdController({
-      logger, presenter: httpObjectPresenter, uc: getGamesystemByIdUC, repository: gamesystemRepository, requestParser,
+      logger, presenter: httpObjectPresenter, UCClass: GetGamesystemByIdUC, repository: gamesystemRepository, requestParser,
     }),
     createGamesystemController: new CreateGamesystemController({
-      logger, presenter: httpObjectPresenter, uc: createGamesystemUC, repository: gamesystemRepository, requestParser, schemaValidator, uniqIdGenerator,
+      logger, presenter: httpObjectPresenter, UCClass: CreateGamesystemUC, repository: gamesystemRepository, requestParser, schemaValidator, uniqIdGenerator,
     }),
     updateGamesystemController: new UpdateGamesystemController({
-      logger, presenter: httpObjectPresenter, uc: updateGamesystemUC, repository: gamesystemRepository, requestParser, schemaValidator,
+      logger, presenter: httpObjectPresenter, UCClass: UpdateGamesystemUC, repository: gamesystemRepository, requestParser, schemaValidator,
     }),
     deleteGamesystemController: new DeleteGamesystemController({
-      logger, presenter: httpObjectPresenter, uc: deleteGamesystemUC, repository: gamesystemRepository, requestParser,
+      logger, presenter: httpObjectPresenter, UCClass: DeleteGamesystemUC, repository: gamesystemRepository, requestParser,
     }),
   };
 

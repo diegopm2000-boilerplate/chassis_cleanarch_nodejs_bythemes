@@ -5,8 +5,7 @@ const GenericController = require('../../../shared/adapter/controller/GenericCon
 class UpdateGamesystemController extends GenericController {
   async execute(req, res, next) {
     try {
-      const moduleName = UpdateGamesystemController.name;
-      this.logger.info(`${moduleName} (IN) --> req: <<req>, res: <<res>>, next: <<next>>`);
+      super.logIn(this.constructor.name);
 
       const parseFields = {
         params: ['gamesystemId'],
@@ -14,10 +13,11 @@ class UpdateGamesystemController extends GenericController {
       };
       const params = this.requestParser.parse(req, parseFields);
 
-      const result = await this.uc.execute(this.repository, this.schemaValidator, this.presenter, this.logger, params);
+      // TODO mejor esto dentro de la clase padre
+      const uc = super.buildUC();
+      const result = await uc.execute(params);
 
-      this.logger.info(`${moduleName} (OUT) --> result: ${JSON.stringify(result)}`);
-      res.status(result.code).json(result.data);
+      super.returnResponse(this.constructor.name, result, res);
     } catch (err) {
       this.logger.error(err.stack);
       next(new Error('Internal Error'));
