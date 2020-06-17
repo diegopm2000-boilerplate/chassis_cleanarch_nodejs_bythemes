@@ -8,7 +8,7 @@ class LoadConfigUC extends BaseUC {
 
     // Load bootstrap variables from bootstrap Repository
     const bootstrapEnvVars = await this.repositories.bootstrap.load();
-    this.logger.debug(`${this.constructor.name} (MID) --> bootstrapEnvVars: ${JSON.stringify(bootstrapEnvVars)}`);
+    super.logMid(this.constructor.name, `bootstrapEnvVars: ${JSON.stringify(bootstrapEnvVars)}`);
 
     // Check the configSource
     if (bootstrapEnvVars.configSource !== 'YAML_FILE' && bootstrapEnvVars.configSource !== 'GIT') {

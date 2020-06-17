@@ -1,5 +1,7 @@
 // constants.js
 
+// TODO repasar cuales se están usando
+
 exports.TOKEN_NAME = 'tokenwithbearer';
 
 exports.CONFIG_BASEPATH = './config';

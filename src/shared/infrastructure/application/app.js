@@ -1,6 +1,6 @@
 // app.js
 
-const logger = require('../log/logColorLogger');
+const logger = require('../log/logFacade');
 const bootstrapconfig = require('./bootstrap/bootstrapConfig');
 const bootstrapModules = require('./bootstrap/bootstrapModules');
 // //////////////////////////////////////////////////////////////////////////////
@@ -25,17 +25,7 @@ process.on('unhandledRejection', (err, p) => {
 
 exports.init = async () => {
   try {
-    // // Init container with default logger
-    // container.defaultInit();
-    // logger = logger;
-    // logger.info(`${MODULE_NAME} (IN) --> Initializing Application...`);
-
-    // // Init Container
-    // container.init('logColorLogger');
-    // logger.info(`${MODULE_NAME} (MID) --> Container initialized OK`);
-
     // // Init logger
-    // logger = logger;
     logger.init({ level: 'debug' });
     logger.info(`${MODULE_NAME} (MID) --> Logger initialized OK`);
 

@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const hsts = require('hsts'); // Only to force https
 const frameguard = require('frameguard'); // Only to force same origin for frames
 
-const logger = require('../log/logColorLogger');
+const logger = require('../log/logFacade');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants

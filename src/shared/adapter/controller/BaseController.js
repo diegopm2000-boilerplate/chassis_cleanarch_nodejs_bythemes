@@ -1,7 +1,5 @@
 // BaseController
 
-/* eslint-disable class-methods-use-this */
-
 class BaseController {
   constructor(args) {
     this.UCClass = args.UCClass;
@@ -13,6 +11,7 @@ class BaseController {
     this.uniqIdGenerator = args.uniqIdGenerator;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   async execute() {
     throw Error('Not defined yet!');
   }

@@ -1,6 +1,6 @@
 // SequelizeCRUDRepository.js
 
-const logger = require('../log/logColorLogger');
+const logger = require('../log/logFacade');
 
 class SequelizeCRUDRepository {
   async getAll(model) {

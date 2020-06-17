@@ -1,7 +1,5 @@
 // SequelizeGamesystemModel.js
 
-/* eslint-disable class-methods-use-this */
-
 const { Sequelize, Model, DataTypes } = require('sequelize');
 
 class SequelizeGamesystemModel extends Model {

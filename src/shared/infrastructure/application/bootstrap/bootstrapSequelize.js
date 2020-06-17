@@ -1,6 +1,6 @@
 // bootstrapSequelize.js
 
-const logger = require('../../log/logColorLogger');
+const logger = require('../../log/logFacade');
 const sequelizeInfra = require('../../database/sequelize/sequelizeInfra');
 
 // //////////////////////////////////////////////////////////////////////////////

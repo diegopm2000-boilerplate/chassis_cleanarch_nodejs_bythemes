@@ -10,8 +10,20 @@ class BaseUC {
     this.uniqIdGenerator = args.uniqIdGenerator;
   }
 
-  logIn(className, params) {
-    this.logger.debug(`${className} (IN) --> params: ${JSON.stringify(params)}`);
+  log(className, header, message) {
+    this.logger.debug(`${className} ${header} --> ${message}}`);
+  }
+
+  logIn(className, message) {
+    this.log(className, '(IN)', message);
+  }
+
+  logMid(className, message) {
+    this.log(className, '(MID)', message);
+  }
+
+  logOut(className, message) {
+    this.log(className, '(OUT)', message);
   }
 }
 

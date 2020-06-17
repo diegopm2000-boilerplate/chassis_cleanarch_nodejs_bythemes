@@ -2,7 +2,7 @@
 
 /* eslint-disable no-unused-vars */
 
-const logger = require('../log/logColorLogger');
+const logger = require('../log/logFacade');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants

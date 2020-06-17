@@ -1,7 +1,5 @@
 // SequelizeGamesystemRepository.js
 
-/* eslint-disable class-methods-use-this */
-
 const GamesystemRepository = require('../../../adapter/repository/GamesystemRepository');
 
 class SequelizeGamesystemRepository extends GamesystemRepository {

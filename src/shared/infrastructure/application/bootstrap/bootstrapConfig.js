@@ -4,11 +4,11 @@ const EnvVarsBootstrapRepository = require('../../../../config/infrastructure/re
 const FileConfigRepository = require('../../../../config/infrastructure/repository/FileConfigRepository');
 const RemoteConfigRepository = require('../../../../config/infrastructure/repository/RemoteConfigRepository');
 const MemoryConfigRepository = require('../../../../config/infrastructure/repository/MemoryConfigRepository');
-// TODO el logger mejor dejarlo detras de una Facade
-const logger = require('../../log/logColorLogger');
-const objectPresenter = require('../../../adapter/presenter/objectPresenter');
 const LoadConfigController = require('../../../../config/adapter/controller/LoadConfigController');
 const LoadConfigUC = require('../../../../config/usecase/LoadConfigUC');
+
+const objectPresenter = require('../../../adapter/presenter/objectPresenter');
+const logger = require('../../log/logFacade');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants

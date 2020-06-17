@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 
 const fileInfra = require('../util/fileInfra');
 const errorHandler = require('./errorHandler');
-const logger = require('../log/logColorLogger');
+const logger = require('../log/logFacade');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Constants & Properties

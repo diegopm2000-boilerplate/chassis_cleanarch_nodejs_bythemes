@@ -1,6 +1,6 @@
 // expressOpenApiController.js
 
-const logger = require('../log/logColorLogger');
+const logger = require('../log/logFacade');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Constants & Properties

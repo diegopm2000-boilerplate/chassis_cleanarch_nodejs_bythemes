@@ -8,7 +8,7 @@ class GetConfigUC extends BaseUC {
 
     // Get Config from repository
     const innerResult = await this.repository.get();
-    this.logger.debug(`${this.constructor.name} (MID) --> innerResult: ${JSON.stringify(innerResult)}`);
+    super.logMid(this.constructor.name, `innerResult: ${JSON.stringify(innerResult)}`);
 
     // Build & Return result
     return this.presenter.presentObject(this.constructor.name, this.logger, innerResult);

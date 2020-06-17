@@ -3,7 +3,7 @@
 const { Validator } = require('jsonschema');
 const _ = require('lodash');
 
-const logger = require('../../log/logColorLogger');
+const logger = require('../../log/logFacade');
 // eslint-disable-next-line no-unused-vars
 const gamesystemSchema = require('./gamesystemSchema');
 

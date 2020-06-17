@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const logger = require('../../log/logColorLogger');
+const logger = require('../../log/logFacade');
 
 const bootstrapSequelize = require('./bootstrapSequelize');
 const bootstrapExpressOpenApiServer = require('./bootstrapExpressOpenApiServer');

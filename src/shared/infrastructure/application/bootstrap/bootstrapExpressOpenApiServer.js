@@ -5,7 +5,7 @@ const expressInfra = require('../../httpServer/expressInfra');
 const expressOpenApiInfra = require('../../httpServer/expressOpenApiInfra');
 const securityInfra = require('../../httpServer/securityInfra');
 const bootstrapControllers = require('./bootstrapControllers');
-const logger = require('../../log/logColorLogger');
+const logger = require('../../log/logFacade');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants

@@ -1,6 +1,6 @@
 // bootstrapControllers.js
 
-const logger = require('../../log/logColorLogger');
+const logger = require('../../log/logFacade');
 
 // infrastructure
 const requestParser = require('../../httpServer/expressOpenApiRequestParser');
