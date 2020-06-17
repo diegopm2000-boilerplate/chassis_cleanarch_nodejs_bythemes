@@ -1,7 +1,8 @@
 // logFacade.js
 
 // const logger = require('./consoleLogger');
-const logger = require('./logColorLogger');
+// const logger = require('./logColorLogger');
+const logger = require('./logWinston');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Functions

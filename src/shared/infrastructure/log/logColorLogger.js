@@ -1,7 +1,5 @@
 // logColorLogger.js
 
-// TODO probar algun logger mejor que este log-color (morgan, winston, node-color-log)
-
 const Log = require('log-color');
 
 // //////////////////////////////////////////////////////////////////////////////
