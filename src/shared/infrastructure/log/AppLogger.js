@@ -2,10 +2,11 @@
 
 class AppLogger {
   static log(logger, className, header, message, level) {
+    const completeMessage = `${className} ${header} --> ${message}`;
     if (!level) {
-      logger.debug(`${className} ${header} --> ${message}`);
+      logger.debug(completeMessage);
     } else {
-      logger[`${level}`](`${className} ${header} --> ${message}}`);
+      logger[`${level}`](completeMessage);
     }
   }
 

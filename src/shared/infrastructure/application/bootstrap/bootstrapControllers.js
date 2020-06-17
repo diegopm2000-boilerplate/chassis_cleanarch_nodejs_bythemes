@@ -23,7 +23,7 @@ const UpdateGamesystemUC = require('../../../../gamesystem/usecase/UpdateGamesys
 const DeleteGamesystemUC = require('../../../../gamesystem/usecase/DeleteGamesystemUC');
 
 // presenters
-const httpObjectPresenter = require('../../../adapter/presenter/httpObjectPresenter');
+const HttpPresenter = require('../../../adapter/presenter/HttpPresenter');
 
 // controllers
 const HealthcheckController = require('../../../../healthcheck/adapter/controller/HealthcheckController');
@@ -43,25 +43,25 @@ exports.init = () => {
 
   const controllers = {
     healthcheckController: new HealthcheckController(
-      { logger, presenter: httpObjectPresenter, UCClass: HealthcheckUC },
+      { logger, presenter: HttpPresenter, UCClass: HealthcheckUC },
     ),
     getConfigController: new GetConfigController({
-      logger, presenter: httpObjectPresenter, UCClass: GetConfigUC, repository: memoryConfigRepository,
+      logger, presenter: HttpPresenter, UCClass: GetConfigUC, repository: memoryConfigRepository,
     }),
     getAllGamesystemsController: new GetAllGamesystemsController({
-      logger, presenter: httpObjectPresenter, UCClass: GetAllgamesystemsUC, repository: gamesystemRepository,
+      logger, presenter: HttpPresenter, UCClass: GetAllgamesystemsUC, repository: gamesystemRepository,
     }),
     getGamesystemByIdController: new GetGamesystemByIdController({
-      logger, presenter: httpObjectPresenter, UCClass: GetGamesystemByIdUC, repository: gamesystemRepository, requestParser,
+      logger, presenter: HttpPresenter, UCClass: GetGamesystemByIdUC, repository: gamesystemRepository, requestParser,
     }),
     createGamesystemController: new CreateGamesystemController({
-      logger, presenter: httpObjectPresenter, UCClass: CreateGamesystemUC, repository: gamesystemRepository, requestParser, schemaValidator, uniqIdGenerator,
+      logger, presenter: HttpPresenter, UCClass: CreateGamesystemUC, repository: gamesystemRepository, requestParser, schemaValidator, uniqIdGenerator,
     }),
     updateGamesystemController: new UpdateGamesystemController({
-      logger, presenter: httpObjectPresenter, UCClass: UpdateGamesystemUC, repository: gamesystemRepository, requestParser, schemaValidator,
+      logger, presenter: HttpPresenter, UCClass: UpdateGamesystemUC, repository: gamesystemRepository, requestParser, schemaValidator,
     }),
     deleteGamesystemController: new DeleteGamesystemController({
-      logger, presenter: httpObjectPresenter, UCClass: DeleteGamesystemUC, repository: gamesystemRepository, requestParser,
+      logger, presenter: HttpPresenter, UCClass: DeleteGamesystemUC, repository: gamesystemRepository, requestParser,
     }),
   };
 

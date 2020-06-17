@@ -7,7 +7,7 @@ const MemoryConfigRepository = require('../../../../config/infrastructure/reposi
 const LoadConfigController = require('../../../../config/adapter/controller/LoadConfigController');
 const LoadConfigUC = require('../../../../config/usecase/LoadConfigUC');
 
-const objectPresenter = require('../../../adapter/presenter/objectPresenter');
+const BasePresenter = require('../../../adapter/presenter/BasePresenter');
 const logger = require('../../log/logFacade');
 
 // //////////////////////////////////////////////////////////////////////////////
@@ -31,7 +31,7 @@ exports.init = async () => {
   };
 
   const loadConfigController = new LoadConfigController({
-    logger, presenter: objectPresenter, UCClass: LoadConfigUC, repositories,
+    logger, presenter: BasePresenter, UCClass: LoadConfigUC, repositories,
   });
   const config = await loadConfigController.execute();
 

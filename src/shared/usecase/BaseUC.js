@@ -29,27 +29,27 @@ class BaseUC {
   }
 
   presentConflict(errors) {
-    return this.presenter.presentConflict(this.constructor.name, this.logger, errors);
+    return this.presenter.presentConflict(this.logger, this.constructor.name, errors);
   }
 
   presentObjectNotFound() {
-    return this.presenter.presentObjectNotFound(this.constructor.name, this.logger);
+    return this.presenter.presentObjectNotFound(this.logger, this.constructor.name);
   }
 
   presentObject(obj) {
-    return this.presenter.presentObject(this.constructor.name, this.logger, obj);
+    return this.presenter.presentObject(this.logger, this.constructor.name, obj);
   }
 
   presentCreatedObject(obj) {
-    return this.presenter.presentCreatedObject(this.constructor.name, this.logger, obj);
+    return this.presenter.presentCreatedObject(this.logger, this.constructor.name, obj);
   }
 
   presentResultOfDeletion(wasDeleted) {
-    return this.presenter.presentResultOfDeletion(this.constructor.name, this.logger, wasDeleted);
+    return this.presenter.presentResultOfDeletion(this.logger, this.constructor.name, wasDeleted);
   }
 
   presentObjectIfFound(obj) {
-    return this.presenter.presentObjectIfFound(this.constructor.name, this.logger, obj);
+    return this.presenter.presentObjectIfFound(this.logger, this.constructor.name, obj);
   }
 }
 

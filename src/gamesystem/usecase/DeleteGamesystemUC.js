@@ -12,7 +12,7 @@ class DeleteGamesystemUC extends BaseUC {
     // Check if exist the gamesystem
     const gamesystemFound = await this.repository.getById(id);
     if (!gamesystemFound) {
-      return this.presenter.presentObjectNotFound(this.constructor.name, this.logger);
+      return super.presentObjectNotFound();
     }
 
     // Remove object from repository
