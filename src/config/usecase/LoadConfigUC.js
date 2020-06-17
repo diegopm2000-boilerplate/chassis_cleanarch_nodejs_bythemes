@@ -3,17 +3,17 @@
 const BaseUC = require('../../shared/usecase/BaseUC');
 
 class LoadConfigUC extends BaseUC {
-  async execute(params) {
-    super.logIn(this.constructor.name, params);
+  async execute() {
+    super.logIn('no params');
 
     // Load bootstrap variables from bootstrap Repository
     const bootstrapEnvVars = await this.repositories.bootstrap.load();
-    super.logMid(this.constructor.name, `bootstrapEnvVars: ${JSON.stringify(bootstrapEnvVars)}`);
+    super.logMid(`bootstrapEnvVars: ${JSON.stringify(bootstrapEnvVars)}`);
 
     // Check the configSource
     if (bootstrapEnvVars.configSource !== 'YAML_FILE' && bootstrapEnvVars.configSource !== 'GIT') {
       const msgError = 'Config Source not valid';
-      this.logger.error(`${this.constructor.name} (ERROR) --> error.message: ${msgError}`);
+      super.logError(`error.message: ${msgError}`);
       throw new Error(msgError);
     }
 
@@ -23,14 +23,14 @@ class LoadConfigUC extends BaseUC {
     } else {
       config = await this.repositories.originSecondary.get({ filename: bootstrapEnvVars.configFileName, endpoint: bootstrapEnvVars.endpoint });
     }
-    this.logger.debug(`${this.constructor.name} (MID) --> config: ${JSON.stringify(config)}`);
+    super.logMid(`config: ${JSON.stringify(config)}`);
 
     // Save config to destiny repository
     await this.repositories.destiny.set({ data: config });
-    this.logger.debug(`${this.constructor.name} (MID) --> config stored in destiny Repository`);
+    super.logMid('config stored in destiny Repository');
 
     // Build & Return result
-    return this.presenter.presentObject(this.constructor.name, this.logger, config);
+    return super.presentObject(config);
   }
 }
 
