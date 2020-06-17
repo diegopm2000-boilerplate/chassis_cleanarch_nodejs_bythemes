@@ -12,7 +12,6 @@ class LoadConfigController extends BaseController {
 
       return super.prepareResponse(result);
     } catch (err) {
-      console.log('Nos fuimos por el error del LoadConfigController');
       super.logError(err);
       throw err;
     }

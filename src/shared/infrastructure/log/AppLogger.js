@@ -1,15 +1,10 @@
 // AppLogger.js
 
 class AppLogger {
-  static log(logger, className, header, message, level) {
+  static log(logger, className, header, message, levelIN) {
     const completeMessage = `${className} ${header} --> ${message}`;
-    const levelToApply = (level) ? level : 'debug';
-    logger[levelToApply](completeMessage);
-    // if (!level) {
-    //   logger.debug(completeMessage);
-    // } else {
-    //   logger[`${level}`](completeMessage);
-    // }
+    const level = levelIN || 'debug';
+    logger[level](completeMessage);
   }
 
   static logIn(logger, className, message, level) {
