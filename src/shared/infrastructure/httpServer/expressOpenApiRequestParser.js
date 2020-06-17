@@ -13,7 +13,7 @@ const MODULE_NAME = '[expressOpenApi RequestParser]';
 // //////////////////////////////////////////////////////////////////////////////
 
 const loadParametersFromRequest = (req, origin, arrayParamNames) => {
-  logger.debug(`${MODULE_NAME} loadParametersFromRequest (IN) --> req: <<req>>, origin: ${origin}, arrayParameterNames: ${JSON.stringify(arrayParamNames)}`);
+  // logger.debug(`${MODULE_NAME} loadParametersFromRequest (IN) --> req: <<req>>, origin: ${origin}, arrayParameterNames: ${JSON.stringify(arrayParamNames)}`);
 
   const result = {};
 
@@ -23,7 +23,7 @@ const loadParametersFromRequest = (req, origin, arrayParamNames) => {
     });
   }
 
-  logger.debug(`${MODULE_NAME} loadPathParamsFromRequest (OUT) --> result: ${JSON.stringify(result)}`);
+  // logger.debug(`${MODULE_NAME} loadPathParamsFromRequest (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
 };
 
@@ -45,12 +45,15 @@ const prepareBodyParams = (req, parseFields) => {
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.parse = (req, parseFields) => {
-  let parsedParams = {};
+  logger.debug(`${MODULE_NAME} parse (IN) --> req: <<req>>, parseFields: ${JSON.stringify(parseFields)}`);
 
-  parsedParams = { ...parsedParams, ...loadParametersFromRequest(req, 'params', parseFields.params) };
-  parsedParams = { ...parsedParams, ...loadParametersFromRequest(req, 'query', parseFields.query) };
-  parsedParams = { ...parsedParams, ...loadParametersFromRequest(req, 'headers', parseFields.headers) };
-  parsedParams = { ...parsedParams, ...prepareBodyParams(req, parseFields) };
+  let result = {};
 
-  return parsedParams;
+  result = { ...result, ...loadParametersFromRequest(req, 'params', parseFields.params) };
+  result = { ...result, ...loadParametersFromRequest(req, 'query', parseFields.query) };
+  result = { ...result, ...loadParametersFromRequest(req, 'headers', parseFields.headers) };
+  result = { ...result, ...prepareBodyParams(req, parseFields) };
+
+  logger.debug(`${MODULE_NAME} parse (OUT) --> result: ${JSON.stringify(result)}`);
+  return result;
 };
