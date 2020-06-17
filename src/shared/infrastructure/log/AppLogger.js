@@ -3,11 +3,13 @@
 class AppLogger {
   static log(logger, className, header, message, level) {
     const completeMessage = `${className} ${header} --> ${message}`;
-    if (!level) {
-      logger.debug(completeMessage);
-    } else {
-      logger[`${level}`](completeMessage);
-    }
+    const levelToApply = (level) ? level : 'debug';
+    logger[levelToApply](completeMessage);
+    // if (!level) {
+    //   logger.debug(completeMessage);
+    // } else {
+    //   logger[`${level}`](completeMessage);
+    // }
   }
 
   static logIn(logger, className, message, level) {
