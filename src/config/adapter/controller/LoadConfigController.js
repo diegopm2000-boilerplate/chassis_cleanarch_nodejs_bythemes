@@ -5,14 +5,14 @@ const BaseController = require('../../../shared/adapter/controller/BaseControlle
 class LoadConfigController extends BaseController {
   async execute() {
     try {
-      super.logIn(this.constructor.name);
+      super.logInDefault();
 
       const uc = super.buildUC();
       const result = await uc.execute();
 
-      return super.prepareResponse(this.constructor.name, result);
+      return super.prepareResponse(result);
     } catch (err) {
-      super.logError(this.constructor.name, err);
+      super.logError(err);
       throw err;
     }
   }

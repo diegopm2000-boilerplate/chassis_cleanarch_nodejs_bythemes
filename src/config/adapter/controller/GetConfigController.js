@@ -5,12 +5,12 @@ const HttpController = require('../../../shared/adapter/controller/HttpControlle
 class GetConfigController extends HttpController {
   async execute(req, res, next) {
     try {
-      super.logIn(this.constructor.name);
+      super.logInDefault();
 
       const uc = super.buildUC();
       const result = await uc.execute();
 
-      super.sendResponse(this.constructor.name, result, res);
+      super.sendResponse(result, res);
     } catch (err) {
       super.handleError(next, err);
     }

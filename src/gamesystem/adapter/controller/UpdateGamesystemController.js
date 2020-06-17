@@ -5,7 +5,7 @@ const HttpController = require('../../../shared/adapter/controller/HttpControlle
 class UpdateGamesystemController extends HttpController {
   async execute(req, res, next) {
     try {
-      super.logIn(this.constructor.name);
+      super.logInDefault();
 
       const parseFields = {
         params: ['gamesystemId'],
@@ -16,7 +16,7 @@ class UpdateGamesystemController extends HttpController {
       const uc = super.buildUC();
       const result = await uc.execute(params);
 
-      super.sendResponse(this.constructor.name, result, res);
+      super.sendResponse(result, res);
     } catch (err) {
       super.handleError(next, err);
     }

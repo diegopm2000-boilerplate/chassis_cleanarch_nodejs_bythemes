@@ -1,5 +1,7 @@
 // BaseController
 
+const AppLogger = require('../../infrastructure/log/AppLogger');
+
 class BaseController {
   constructor(args) {
     this.UCClass = args.UCClass;
@@ -27,22 +29,27 @@ class BaseController {
     });
   }
 
-  logIn(className) {
-    this.logger.info(`${className} (IN) --> req: <<req>, res: <<res>>, next: <<next>>`);
+  logInDefault() {
+    AppLogger.logIn(this.logger, this.constructor.name, 'req: <<req>, res: <<res>>, next: <<next>>', 'info');
   }
 
-  logOut(className, result) {
-    this.logger.info(`${className} (OUT) --> result: ${JSON.stringify(result)}`);
+  logOut(result) {
+    AppLogger.logOut(this.logger, this.constructor.name, `result: ${JSON.stringify(result)}\n`, 'info');
   }
 
   logError(className, err) {
-    this.logger.error(`${className} (ERROR) --> error.message: ${err.message}`);
-    this.logger.error(`${className} (ERROR) --> error.stack: ${err.stack}`);
+    AppLogger.logError(this.logger, this.constructor.name, `error.message: ${err.message}`);
+    AppLogger.logError(this.logger, this.constructor.name, `error.stack: ${err.stack}`);
   }
 
-  prepareResponse(className, result) {
-    this.logOut(className, result);
+  prepareResponse(result) {
+    this.logOut(result);
     return result;
+  }
+
+  handleError(err) {
+    this.logError(err);
+    throw err;
   }
 }
 

@@ -8,8 +8,8 @@ class HttpController extends BaseController {
     this.requestParser = args.requestParser;
   }
 
-  sendResponse(className, result, res) {
-    this.logOut(className, result);
+  sendResponse(result, res) {
+    this.logOut(result);
     res.status(result.code).json(result.data);
   }
 
