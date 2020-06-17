@@ -17,8 +17,7 @@ class CommonGamesystemController extends HttpController {
 
       super.sendResponse(this.constructor.name, result, res);
     } catch (err) {
-      this.logger.error(err.stack);
-      next(new Error('Internal Error'));
+      super.handleError(next, err);
     }
   }
 }

@@ -12,7 +12,7 @@ class LoadConfigController extends BaseController {
 
       return super.prepareResponse(this.constructor.name, result);
     } catch (err) {
-      this.logger.error(err.stack);
+      super.logError(this.constructor.name, err);
       throw err;
     }
   }

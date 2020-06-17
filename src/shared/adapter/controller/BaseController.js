@@ -36,6 +36,11 @@ class BaseController {
     this.logger.info(`${className} (OUT) --> result: ${JSON.stringify(result)}`);
   }
 
+  logError(className, err) {
+    this.logger.error(`${className} (ERROR) --> error.message: ${err.message}`);
+    this.logger.error(`${className} (ERROR) --> error.stack: ${err.stack}`);
+  }
+
   prepareResponse(className, result) {
     this.logOut(className, result);
     return result;

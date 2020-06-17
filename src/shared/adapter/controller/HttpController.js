@@ -1,8 +1,5 @@
 // HttpController.js
 
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-unused-vars */
-
 const BaseController = require('./BaseController');
 
 class HttpController extends BaseController {
@@ -14,6 +11,11 @@ class HttpController extends BaseController {
   sendResponse(className, result, res) {
     this.logOut(className, result);
     res.status(result.code).json(result.data);
+  }
+
+  handleError(error, next) {
+    this.logError(error, next);
+    next(new Error('Internal Error'));
   }
 }
 
