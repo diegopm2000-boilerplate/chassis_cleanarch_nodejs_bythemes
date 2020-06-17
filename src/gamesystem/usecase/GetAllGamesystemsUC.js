@@ -6,6 +6,7 @@ class GetAllGamesystemsUC extends BaseUC {
   async execute() {
     super.logIn('params: no params');
 
+    // Get objects from repository
     const innerResult = await this.repository.getAll();
     super.logMid(`innerResult: ${JSON.stringify(innerResult)}`);
 

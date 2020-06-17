@@ -17,6 +17,7 @@ class LoadConfigUC extends BaseUC {
       throw new Error(msgError);
     }
 
+    // Get config from origin repository
     let config;
     if (bootstrapEnvVars.configSource === 'YAML_FILE') {
       config = await this.repositories.originPrimary.get({ filename: bootstrapEnvVars.configFileName });

@@ -15,6 +15,7 @@ class DeleteGamesystemUC extends BaseUC {
       return this.presenter.presentObjectNotFound(this.constructor.name, this.logger);
     }
 
+    // Remove object from repository
     const wasDeleted = await this.repository.remove(id);
     super.logMid(`wasDeleted: ${JSON.stringify(wasDeleted)}`);
 
