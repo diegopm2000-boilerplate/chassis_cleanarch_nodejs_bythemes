@@ -37,7 +37,7 @@ class BaseController {
     AppLogger.logOut(this.logger, this.constructor.name, `result: ${JSON.stringify(result)}\n`, 'info');
   }
 
-  logError(className, err) {
+  logError(err) {
     AppLogger.logError(this.logger, this.constructor.name, `error.message: ${err.message}`);
     AppLogger.logError(this.logger, this.constructor.name, `error.stack: ${err.stack}`);
   }

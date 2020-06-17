@@ -11,13 +11,13 @@ const YAML = require('yaml');
 // //////////////////////////////////////////////////////////////////////////////
 
 const checkExtension = (filepath) => {
-  if (!filepath.endsWith('yml') && !filepath.endsWith('yaml') && !filepath.endsWith('json')) {
+  if (!exports.isYamlFile(filepath) && !exports.isJSONFile(filepath)) {
     throw new Error('File extension not supported. Only yaml, yml or json files allowed');
   }
 };
 
 const parseFile = (filepath, buffer) => {
-  if (filepath.endsWith('yml') || filepath.endsWith('yaml')) {
+  if (exports.isYamlFile(filepath)) {
     return YAML.parse(buffer.toString());
   }
 
@@ -43,3 +43,7 @@ exports.loadObjFromFileSync = (filepath) => {
 exports.getAllModuleNames = (filepath) => glob.sync(`${filepath}/**/*.js`);
 
 exports.getFileName = (filepath) => path.basename(filepath);
+
+exports.isYamlFile = (filepath) => filepath.endsWith('yml') || filepath.endsWith('yaml');
+
+exports.isJSONFile = (filepath) => filepath.endsWith('json');

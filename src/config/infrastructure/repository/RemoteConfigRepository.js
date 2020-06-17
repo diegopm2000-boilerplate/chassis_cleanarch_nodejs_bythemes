@@ -7,13 +7,12 @@ const YAML = require('yaml');
 
 const ConfigRepository = require('../../adapter/repository/ConfigRepository');
 
+const fileInfra = require('../../../shared/infrastructure/util/fileInfra');
+
 class RemoteConfigRepository extends ConfigRepository {
   async get(options) {
     const innerResult = await axios.get(`${options.endpoint}/${options.filename}`);
-    if (options.filename.endsWith('yml') || options.filename.endsWith('yaml')) {
-      return YAML.parse(innerResult.data);
-    }
-    return innerResult.data;
+    return (fileInfra.isYamlFile(options.filename)) ? YAML.parse(innerResult.data) : innerResult.data;
   }
 }
 
