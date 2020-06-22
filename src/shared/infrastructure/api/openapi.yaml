@@ -35,7 +35,7 @@ paths:
   
   /config:
     get:
-      summary: Get the application configuration. Don't expose this method in production environment!!!
+      summary: Get the application configuration. IMPORTANT -> Don't expose this method in production environment!!!
       tags:
         - Configuration
       operationId: getConfig
@@ -51,6 +51,35 @@ paths:
                   appName: Clean Architecture - NodeJS - Organization by themes
                   description: Demo of Clean Architecture in NodeJS using a organization of componentes by themes
                   environment: dev
+
+  # ##################################################################
+  # Authentication
+  # ##################################################################
+
+  /authenticate:
+    post:
+      summary: authenticate user in the application returning a JWT Token
+      tags:
+        - "Authentication"
+      operationId: authenticate
+      parameters:
+        - name: username
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/AuthToken"
         
   # ##################################################################
   # Gamesystems
@@ -234,6 +263,13 @@ components:
         message:
           type: string
       required: ['code', 'message']
+      additionalProperties: false
+
+    AuthToken:      
+      properties:
+        token:
+          type: string
+      required: ['token']
       additionalProperties: false
 
     # Id Data

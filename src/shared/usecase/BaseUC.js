@@ -51,6 +51,14 @@ class BaseUC {
   presentObjectIfFound(obj) {
     return this.presenter.presentObjectIfFound(this.logger, this.constructor.name, obj);
   }
+
+  presentNotAuthenticated() {
+    return this.presenter.presentNotAuthenticated(this.logger, this.constructor.name);
+  }
+
+  presentNotAuthorized() {
+    return this.presenter.presentNotAuthorized(this.logger, this.constructor.name);
+  }
 }
 
 module.exports = BaseUC;

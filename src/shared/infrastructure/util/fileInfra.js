@@ -3,7 +3,6 @@
 const readFilePromise = require('fs-readfile-promise');
 const fs = require('fs');
 const path = require('path');
-const glob = require('glob');
 const YAML = require('yaml');
 
 // //////////////////////////////////////////////////////////////////////////////
@@ -39,8 +38,6 @@ exports.loadObjFromFileSync = (filepath) => {
   const buffer = fs.readFileSync(filepath);
   return parseFile(filepath, buffer);
 };
-
-exports.getAllModuleNames = (filepath) => glob.sync(`${filepath}/**/*.js`);
 
 exports.getFileName = (filepath) => path.basename(filepath);
 

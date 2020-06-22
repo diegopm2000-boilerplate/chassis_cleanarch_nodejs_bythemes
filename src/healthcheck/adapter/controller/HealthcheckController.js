@@ -1,6 +1,7 @@
 // HealthcheckController.js
 
 const HttpController = require('../../../shared/adapter/controller/HttpController');
+const logger = require('../../../shared/infrastructure/log/logFacade');
 
 class HealthcheckController extends HttpController {
   async execute(req, res, next) {

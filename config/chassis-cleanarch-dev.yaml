@@ -16,6 +16,11 @@ modules:
     isAsync: false
   - name: expressOpenApiServer
     isAsync: true
+  - name: authentication
+    isAsync: false
+authentication:
+  tokenExpiration: 30 #minutes
+  tokenSecret: fromzerotohero
 database:
   sequelize:
     dbname: gamecollector-db
@@ -25,4 +30,12 @@ database:
     dbdialect: mysql
     models:
       - sequelizeGamesystemModel
+  inconfig:
+    users:
+      - username: adminuser
+        password: $2b$12$RBWhNB1fRhP8FWqR2z6YEeYUU7nae5wy7Zgw65ghXQar6pZ5lfrPm
+        role: administrator
+      - username: vieweruser
+        password: $2b$12$RBWhNB1fRhP8FWqR2z6YEeYUU7nae5wy7Zgw65ghXQar6pZ5lfrPm
+        role: viewer
     
