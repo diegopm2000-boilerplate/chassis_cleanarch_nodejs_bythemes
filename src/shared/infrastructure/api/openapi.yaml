@@ -13,212 +13,212 @@ paths:
   # Healthcheck
   # ##################################################################
 
-  /healthcheck:
-    get:
-      summary: Healthcheck of the application
-      tags:
-        - Healthcheck
-      operationId: healthcheck
-      responses: 
-        "200": 
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Success'
-              example:
-                message: 'OK'
+  # /healthcheck:
+  #   get:
+  #     summary: Healthcheck of the application
+  #     tags:
+  #       - Healthcheck
+  #     operationId: healthcheck
+  #     responses: 
+  #       "200": 
+  #         description: Success
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Success'
+  #             example:
+  #               message: 'OK'
 
   # ##################################################################
   # Config
   # ##################################################################
   
-  /config:
-    get:
-      summary: Get the application configuration. IMPORTANT -> Don't expose this method in production environment!!!
-      tags:
-        - Configuration
-      operationId: getConfig
-      responses: 
-        "200": 
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Object'
-              example:
-                app:
-                  appName: Clean Architecture - NodeJS - Organization by themes
-                  description: Demo of Clean Architecture in NodeJS using a organization of componentes by themes
-                  environment: dev
+  # /config:
+  #   get:
+  #     summary: Get the application configuration. IMPORTANT -> Don't expose this method in production environment!!!
+  #     tags:
+  #       - Configuration
+  #     operationId: getConfig
+  #     responses: 
+  #       "200": 
+  #         description: Success
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Object'
+  #             example:
+  #               app:
+  #                 appName: Clean Architecture - NodeJS - Organization by themes
+  #                 description: Demo of Clean Architecture in NodeJS using a organization of componentes by themes
+  #                 environment: dev
 
   # ##################################################################
   # Authentication
   # ##################################################################
 
-  /authenticate:
-    post:
-      summary: authenticate user in the application returning a JWT Token
-      tags:
-        - "Authentication"
-      operationId: authenticate
-      parameters:
-        - name: username
-          in: header
-          required: true
-          schema:
-            type: string
-        - name: password
-          in: header
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema: 
-                $ref: "#/components/schemas/AuthToken"
+  # /authenticate:
+  #   post:
+  #     summary: authenticate user in the application returning a JWT Token
+  #     tags:
+  #       - "Authentication"
+  #     operationId: authenticate
+  #     parameters:
+  #       - name: username
+  #         in: header
+  #         required: true
+  #         schema:
+  #           type: string
+  #       - name: password
+  #         in: header
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         content:
+  #           application/json:
+  #             schema: 
+  #               $ref: "#/components/schemas/AuthToken"
         
   # ##################################################################
   # Gamesystems
   # ##################################################################
 
-  /gamesystems:
-    post: 
-      summary: Create a new gamesystem
-      tags:
-        - Gamesystems
-      operationId: createGamesystem
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/GamesystemCreationData"
-            example:
-              id: xxxxxxxxxxxxxxxxx
-              name: a new awesome gamesystem
-              description: a new awesome gamesystem
+  # /gamesystems:
+  #   post: 
+  #     summary: Create a new gamesystem
+  #     tags:
+  #       - Gamesystems
+  #     operationId: createGamesystem
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/components/schemas/GamesystemCreationData"
+  #           example:
+  #             id: xxxxxxxxxxxxxxxxx
+  #             name: a new awesome gamesystem
+  #             description: a new awesome gamesystem
 
-      responses: 
-        "201": 
-          description: Gamesystem created OK and returned
-          content:
-            application/json:
-              schema: 
-                $ref: "#/components/schemas/GamesystemData"
-              example:
-                id: xxxxxxxxxxxxxxxxx
-                name: a new awesome gamesystem
-                description: a new awesome gamesystem
-        "409": 
-          description: Conflict
-          content:
-            application/json:
-              schema: 
-                $ref: "#/components/schemas/Error"
-              example:
-                code: 409
-                message: There is a previous gamesystem with the same name in the system
-    get:
-      summary: Get all gamesystems
-      tags:
-        - Gamesystems
-      operationId: getAllGamesystems
-      responses: 
-        "200": 
-          description: Data returned
-          content:
-            application/json:
-              schema: 
-                $ref: "#/components/schemas/GamesystemDataList"
-              example:
-                - id: xxxxxxxxxxxxxxxxx
-                  name: a new awesome gamesystem
-                  description: a new awesome gamesystem
-                - id: yyyyyyyyyyyyyyyyy
-                  name: another stuff of gamesystem
-                  description: another stuff of gamesystem
+  #     responses: 
+  #       "201": 
+  #         description: Gamesystem created OK and returned
+  #         content:
+  #           application/json:
+  #             schema: 
+  #               $ref: "#/components/schemas/GamesystemData"
+  #             example:
+  #               id: xxxxxxxxxxxxxxxxx
+  #               name: a new awesome gamesystem
+  #               description: a new awesome gamesystem
+  #       "409": 
+  #         description: Conflict
+  #         content:
+  #           application/json:
+  #             schema: 
+  #               $ref: "#/components/schemas/Error"
+  #             example:
+  #               code: 409
+  #               message: There is a previous gamesystem with the same name in the system
+  #   get:
+  #     summary: Get all gamesystems
+  #     tags:
+  #       - Gamesystems
+  #     operationId: getAllGamesystems
+  #     responses: 
+  #       "200": 
+  #         description: Data returned
+  #         content:
+  #           application/json:
+  #             schema: 
+  #               $ref: "#/components/schemas/GamesystemDataList"
+  #             example:
+  #               - id: xxxxxxxxxxxxxxxxx
+  #                 name: a new awesome gamesystem
+  #                 description: a new awesome gamesystem
+  #               - id: yyyyyyyyyyyyyyyyy
+  #                 name: another stuff of gamesystem
+  #                 description: another stuff of gamesystem
 
-  /gamesystems/{gamesystemId}:
-    get:
-      summary: Get the gamesystem by id
-      tags:
-        - Gamesystems
-      operationId: getGamesystemById
-      parameters:
-        - name: gamesystemId
-          in: path
-          description: gamesystem Id
-          required: true
-          schema:
-            type: string
+  # /gamesystems/{gamesystemId}:
+  #   get:
+  #     summary: Get the gamesystem by id
+  #     tags:
+  #       - Gamesystems
+  #     operationId: getGamesystemById
+  #     parameters:
+  #       - name: gamesystemId
+  #         in: path
+  #         description: gamesystem Id
+  #         required: true
+  #         schema:
+  #           type: string
 
-      responses: 
-        "200": 
-          description: Data returned
-          content:
-            application/json:
-              schema: 
-                $ref: "#/components/schemas/GamesystemData"
-              example:
-                id: xxxxxxxxxxxxxxxxx
-                name: a new awesome gamesystem
-                description: a new awesome gamesystem
-        "404": 
-          $ref: '#/components/responses/ObjectNotFoundResponse'
+  #     responses: 
+  #       "200": 
+  #         description: Data returned
+  #         content:
+  #           application/json:
+  #             schema: 
+  #               $ref: "#/components/schemas/GamesystemData"
+  #             example:
+  #               id: xxxxxxxxxxxxxxxxx
+  #               name: a new awesome gamesystem
+  #               description: a new awesome gamesystem
+  #       "404": 
+  #         $ref: '#/components/responses/ObjectNotFoundResponse'
 
-    put:
-      summary: Update the gamesystem by Id
-      tags:
-        - Gamesystems
-      operationId: updateGamesystem
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/GamesystemUpdateData"
-      parameters:
-        - name: gamesystemId
-          in: path
-          description: gamesystem Id
-          required: true
-          schema:
-            type: string
-      responses: 
-        "200": 
-          description: Gamesystem updated OK and data returned
-          content:
-            application/json:
-              schema: 
-                $ref: "#/components/schemas/GamesystemData"
-              example:
-                id: xxxxxxxxxxxxxxxxx
-                name: an updated awesome gamesystem
-                description: an updated awesome gamesystem
-        "404": 
-          $ref: '#/components/responses/ObjectNotFoundResponse'
+  #   put:
+  #     summary: Update the gamesystem by Id
+  #     tags:
+  #       - Gamesystems
+  #     operationId: updateGamesystem
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/components/schemas/GamesystemUpdateData"
+  #     parameters:
+  #       - name: gamesystemId
+  #         in: path
+  #         description: gamesystem Id
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses: 
+  #       "200": 
+  #         description: Gamesystem updated OK and data returned
+  #         content:
+  #           application/json:
+  #             schema: 
+  #               $ref: "#/components/schemas/GamesystemData"
+  #             example:
+  #               id: xxxxxxxxxxxxxxxxx
+  #               name: an updated awesome gamesystem
+  #               description: an updated awesome gamesystem
+  #       "404": 
+  #         $ref: '#/components/responses/ObjectNotFoundResponse'
 
-    delete:
-      summary: Delete the gamesystem by Id
-      tags:
-        - Gamesystems
-      operationId: deleteGamesystem
-      parameters:
-        - name: gamesystemId
-          in: path
-          description: gamesystem Id
-          required: true
-          schema:
-            type: string
-      responses: 
-        "204": 
-          description: Gamesystem deleted OK, no data returned
-        "404": 
-          $ref: '#/components/responses/ObjectNotFoundResponse'
+  #   delete:
+  #     summary: Delete the gamesystem by Id
+  #     tags:
+  #       - Gamesystems
+  #     operationId: deleteGamesystem
+  #     parameters:
+  #       - name: gamesystemId
+  #         in: path
+  #         description: gamesystem Id
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses: 
+  #       "204": 
+  #         description: Gamesystem deleted OK, no data returned
+  #       "404": 
+  #         $ref: '#/components/responses/ObjectNotFoundResponse'
 
 components:
 

@@ -1,13 +1,13 @@
 // bootstrapConfig.js
 
-const EnvVarsBootstrapRepository = require('../../../../config/infrastructure/repository/EnvVarsBootstrapRepository');
-const FileConfigRepository = require('../../../../config/infrastructure/repository/FileConfigRepository');
-const RemoteConfigRepository = require('../../../../config/infrastructure/repository/RemoteConfigRepository');
-const MemoryConfigRepository = require('../../../../config/infrastructure/repository/MemoryConfigRepository');
-const LoadConfigController = require('../../../../config/adapter/controller/LoadConfigController');
-const LoadConfigUC = require('../../../../config/usecase/LoadConfigUC');
+// const EnvVarsBootstrapRepository = require('../../../../config/infrastructure/repository/EnvVarsBootstrapRepository');
+// const FileConfigRepository = require('../../../../config/infrastructure/repository/FileConfigRepository');
+// const RemoteConfigRepository = require('../../../../config/infrastructure/repository/RemoteConfigRepository');
+// const MemoryConfigRepository = require('../../../../config/infrastructure/repository/MemoryConfigRepository');
+const loadConfigController = require('../../../../config/adapter/controller/LoadConfigController_Alt');
+// const LoadConfigUC = require('../../../../config/usecase/LoadConfigUC');
 
-const BasePresenter = require('../../../adapter/presenter/BasePresenter');
+// const BasePresenter = require('../../../adapter/presenter/BasePresenter');
 const logger = require('../../log/logFacade');
 
 // //////////////////////////////////////////////////////////////////////////////
@@ -23,16 +23,16 @@ const MODULE_NAME = '[boostrapConfig]';
 exports.init = async () => {
   logger.debug(`${MODULE_NAME} initConfig (IN) --> no params`);
 
-  const repositories = {
-    bootstrap: new EnvVarsBootstrapRepository(),
-    originPrimary: new FileConfigRepository(),
-    originSecondary: new RemoteConfigRepository(),
-    destiny: new MemoryConfigRepository(),
-  };
+  // const repositories = {
+  //   bootstrap: new EnvVarsBootstrapRepository(),
+  //   originPrimary: new FileConfigRepository(),
+  //   originSecondary: new RemoteConfigRepository(),
+  //   destiny: new MemoryConfigRepository(),
+  // };
 
-  const loadConfigController = new LoadConfigController({
-    logger, presenter: BasePresenter, UCClass: LoadConfigUC, repositories,
-  });
+  // const loadConfigController = new LoadConfigController({
+  //   logger, presenter: BasePresenter, UCClass: LoadConfigUC, repositories,
+  // });
   const config = await loadConfigController.execute();
 
   logger.debug(`${MODULE_NAME} initConfig (OUT) --> config: ${JSON.stringify(config)}`);

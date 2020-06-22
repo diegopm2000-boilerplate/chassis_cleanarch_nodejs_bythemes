@@ -1,11 +1,9 @@
 // EnvironmentBoostrapRepository.js
 
-/* eslint-disable class-methods-use-this */
-
 const BootstrapRepository = require('../../adapter/repository/BootstrapRepository');
 
 class EnvironmentBoostrapRepository extends BootstrapRepository {
-  async load() {
+  static async load() {
     const result = {
       configSource: process.env.NODE_CONFIG_SOURCE_APP,
       configFileName: process.env.NODE_CONFIG_FILE,

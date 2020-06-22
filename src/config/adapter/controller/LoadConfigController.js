@@ -1,21 +1,35 @@
-// LoadConfigController.js
+// LoadConfigAltController_Alt.js
 
-const BaseController = require('../../../shared/adapter/controller/BaseController');
+const logger = require('../../../shared/infrastructure/log/logFacade');
+const presenter = require('../../../shared/adapter/presenter/basePresenter');
+const loadConfigUC = require('../../usecase/loadConfigUC');
+const BootstrapRepository = require('../../infrastructure/repository/EnvVarsBootstrapRepository');
+const PrimaryOriginRepository = require('../../infrastructure/repository/FileConfigRepository');
+const SecondaryOriginRepository = require('../../infrastructure/repository/RemoteConfigRepository');
+const DestinyRepository = require('../../infrastructure/repository/MemoryConfigRepository');
 
-class LoadConfigController extends BaseController {
-  async execute() {
-    try {
-      super.logInDefault();
+// //////////////////////////////////////////////////////////////////////////////
+// Properties & Constants
+// //////////////////////////////////////////////////////////////////////////////
 
-      const uc = super.buildUC();
-      const result = await uc.execute();
+const MODULE_NAME = '[LoadConfigController]';
 
-      return super.prepareResponse(result);
-    } catch (err) {
-      super.logError(err);
-      throw err;
-    }
+// //////////////////////////////////////////////////////////////////////////////
+// Public Methods
+// //////////////////////////////////////////////////////////////////////////////
+
+exports.execute = async () => {
+  try {
+    logger.info(`${MODULE_NAME} (IN) -> no params`);
+
+    const result = await loadConfigUC.execute({
+      logger, presenter, BootstrapRepository, PrimaryOriginRepository, SecondaryOriginRepository, DestinyRepository,
+    });
+
+    logger.info(`${MODULE_NAME} (OUT) -> result: ${JSON.stringify(result)}`);
+    return result;
+  } catch (error) {
+    logger.error(`${MODULE_NAME} (ERROR) -> error.stack: ${error.stack}`);
+    throw error;
   }
-}
-
-module.exports = LoadConfigController;
+};
