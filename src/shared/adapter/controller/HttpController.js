@@ -13,7 +13,7 @@ class HttpController extends BaseController {
     res.status(result.code).json(result.data);
   }
 
-  handleError(error, next) {
+  handleError(next, error) {
     this.logError(error, next);
     next(new Error('Internal Error'));
   }

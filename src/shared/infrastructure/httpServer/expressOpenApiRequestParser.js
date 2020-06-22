@@ -12,52 +12,38 @@ const MODULE_NAME = '[expressOpenApi RequestParser]';
 // Private Functions
 // //////////////////////////////////////////////////////////////////////////////
 
-const fixBodyParams = (bodyParams, bodyMixToParams) => {
-  let result = {};
-  if (JSON.stringify(bodyParams) !== '{}') {
-    if (bodyMixToParams) {
-      result = { ...result, ...bodyParams };
-    } else {
-      result.dataIN = bodyParams;
-    }
-  }
-  return result;
-};
+const mixObjects = (obj1, obj2) => ({ ...obj1, ...obj2 });
 
-const loadParametersFromRequest = (req, origin, parseFields) => {
+const loadParametersFromRequest = (req, origin, fieldsToParse) => {
   // logger.debug(`${MODULE_NAME} loadParametersFromRequest (IN) --> req: <<req>>, origin: ${origin}, arrayParameterNames: ${JSON.stringify(arrayParamNames)}`);
 
-  let result = {};
+  const result = {};
 
-  const arrayParamNames = parseFields[origin];
+  const arrayParamNames = fieldsToParse[origin] || [];
 
-  if (arrayParamNames && arrayParamNames.length > 0) {
-    arrayParamNames.forEach((x) => {
-      result[x] = req[origin][x];
-    });
-  }
-
-  if (origin === 'body') {
-    result = fixBodyParams(result, parseFields.bodyMixToParams);
-  }
+  arrayParamNames.forEach((x) => {
+    result[x] = req[origin][x];
+  });
 
   // logger.debug(`${MODULE_NAME} loadPathParamsFromRequest (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
 };
 
+const flatBodyParamsToDataIN = (bFlat, params) => ((bFlat) ? params : { dataIN: params });
+
 // //////////////////////////////////////////////////////////////////////////////
 // Public Functions
 // //////////////////////////////////////////////////////////////////////////////
 
-exports.parse = (req, parseFields) => {
-  logger.debug(`${MODULE_NAME} parse (IN) --> req: <<req>>, parseFields: ${JSON.stringify(parseFields)}`);
+exports.parse = (req, fieldsToParse) => {
+  logger.debug(`${MODULE_NAME} parse (IN) --> req: <<req>>, parseFields: ${JSON.stringify(fieldsToParse)}`);
 
   let result = {};
 
-  result = { ...result, ...loadParametersFromRequest(req, 'params', parseFields) };
-  result = { ...result, ...loadParametersFromRequest(req, 'query', parseFields) };
-  result = { ...result, ...loadParametersFromRequest(req, 'headers', parseFields) };
-  result = { ...result, ...loadParametersFromRequest(req, 'body', parseFields) };
+  result = mixObjects(result, loadParametersFromRequest(req, 'params', fieldsToParse));
+  result = mixObjects(result, loadParametersFromRequest(req, 'query', fieldsToParse));
+  result = mixObjects(result, loadParametersFromRequest(req, 'headers', fieldsToParse));
+  result = mixObjects(result, flatBodyParamsToDataIN(fieldsToParse.bFlat, loadParametersFromRequest(req, 'body', fieldsToParse)));
 
   logger.debug(`${MODULE_NAME} parse (OUT) --> result: ${JSON.stringify(result)}`);
   return result;

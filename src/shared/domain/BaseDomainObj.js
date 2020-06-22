@@ -4,7 +4,7 @@ class BaseDomainObj {
   constructor(data, schemaValidatorInfra, nameDomainObj) {
     // Check data
     const errors = schemaValidatorInfra.validate(data, nameDomainObj);
-    // Build workspace
+    // Build object
     if (errors && errors.length > 0) {
       this.errors = errors;
     } else if (data) {
