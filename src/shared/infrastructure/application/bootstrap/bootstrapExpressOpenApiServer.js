@@ -4,7 +4,6 @@ const constants = require('../../constants/constants');
 const expressInfra = require('../../httpServer/expressInfra');
 const expressOpenApiInfra = require('../../httpServer/expressOpenApiInfra');
 const securityInfra = require('../../httpServer/securityInfra');
-const bootstrapControllers = require('./bootstrapControllers');
 const logger = require('../../log/logFacade');
 
 // //////////////////////////////////////////////////////////////////////////////
@@ -31,10 +30,8 @@ exports.init = async (config) => {
   expressInfra.start(port);
   // Configure Server Security
   securityInfra.init(expressInfra.getApp(), httpsAlways);
-  // Boostrap Controllers
-  const controllers = bootstrapControllers.init();
   // Add Api Middleware
-  expressOpenApiInfra.init(expressInfra.getApp(), apiDocFilepath, controllers);
+  expressOpenApiInfra.init(expressInfra.getApp(), apiDocFilepath);
   // Configure Server after Middleware
   expressInfra.configureAfterApiMiddleware();
   // Get the Express Configuration

@@ -3,10 +3,10 @@
 const logger = require('../../../shared/infrastructure/log/logFacade');
 const presenter = require('../../../shared/adapter/presenter/basePresenter');
 const loadConfigUC = require('../../usecase/loadConfigUC');
-const BootstrapRepository = require('../../infrastructure/repository/EnvVarsBootstrapRepository');
-const PrimaryOriginRepository = require('../../infrastructure/repository/FileConfigRepository');
-const SecondaryOriginRepository = require('../../infrastructure/repository/RemoteConfigRepository');
-const DestinyRepository = require('../../infrastructure/repository/MemoryConfigRepository');
+const bootstrapGetRepository = require('../../infrastructure/repository/environmentVariables/environmentVariablesGetRepository');
+const primaryConfigGetRepository = require('../../infrastructure/repository/file/fileConfigGetRepository');
+const secondaryConfigGetRepository = require('../../infrastructure/repository/remote/remoteConfigGetRepository');
+const destinyConfigSetRepository = require('../../infrastructure/repository/memory/memoryConfigSetRepository');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
@@ -23,7 +23,7 @@ exports.execute = async () => {
     logger.info(`${MODULE_NAME} (IN) -> no params`);
 
     const result = await loadConfigUC.execute({
-      logger, presenter, BootstrapRepository, PrimaryOriginRepository, SecondaryOriginRepository, DestinyRepository,
+      logger, presenter, bootstrapGetRepository, primaryConfigGetRepository, secondaryConfigGetRepository, destinyConfigSetRepository,
     });
 
     logger.info(`${MODULE_NAME} (OUT) -> result: ${JSON.stringify(result)}`);

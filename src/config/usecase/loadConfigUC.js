@@ -6,21 +6,27 @@
 
 const MODULE_NAME = '[loadConfigUC]';
 
+const BOOTSTRAP_CONFIG_SOURCE_APP = 'BOOTSTRAP_CONFIG_SOURCE_APP';
+const BOOTSTRAP_CONFIG_FILE = 'BOOTSTRAP_CONFIG_FILE';
+const BOOTSTRAP_CONFIG_SPRINGCFG_ENDPOINT = 'BOOTSTRAP_CONFIG_SPRINGCFG_ENDPOINT';
+
 // //////////////////////////////////////////////////////////////////////////////
 // Public Methods
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.execute = async ({
-  logger, presenter, BootstrapRepository, PrimaryOriginRepository, SecondaryOriginRepository, DestinyRepository,
+  logger, presenter, bootstrapGetRepository, primaryConfigGetRepository, secondaryConfigGetRepository, destinyConfigSetRepository,
 }) => {
   logger.debug(`${MODULE_NAME} (IN) -> no params`);
 
   // Load bootstrap variables from bootstrap Repository
-  const bootstrapEnvVars = await BootstrapRepository.load();
-  logger.debug(`${MODULE_NAME} (MID) -> bootstrapEnvVars: ${JSON.stringify(bootstrapEnvVars)}`);
+  const configSource = bootstrapGetRepository.execute(BOOTSTRAP_CONFIG_SOURCE_APP);
+  const configFile = await bootstrapGetRepository.execute(BOOTSTRAP_CONFIG_FILE);
+  const endpoint = await bootstrapGetRepository.execute(BOOTSTRAP_CONFIG_SPRINGCFG_ENDPOINT);
+  logger.debug(`${MODULE_NAME} (MID) -> bootstrap values loaded: configSource: ${configSource}, configFile: ${configFile}, endpoint: ${endpoint}`);
 
   // Check the configSource
-  if (bootstrapEnvVars.configSource !== 'YAML_FILE' && bootstrapEnvVars.configSource !== 'GIT') {
+  if (configSource !== 'YAML_FILE' && configSource !== 'GIT') {
     const msgError = 'Config Source not valid';
     logger.error(`${MODULE_NAME} (ERROR) -> error.message: ${msgError}`);
     throw new Error(msgError);
@@ -28,15 +34,15 @@ exports.execute = async ({
 
   // Get config from origin repository
   let config;
-  if (bootstrapEnvVars.configSource === 'YAML_FILE') {
-    config = await PrimaryOriginRepository.get({ filename: bootstrapEnvVars.configFileName });
+  if (configSource === 'YAML_FILE') {
+    config = await primaryConfigGetRepository.execute({ configFile });
   } else {
-    config = await SecondaryOriginRepository.get({ filename: bootstrapEnvVars.configFileName, endpoint: bootstrapEnvVars.endpoint });
+    config = await secondaryConfigGetRepository.execute({ configFile, endpoint });
   }
   logger.debug(`${MODULE_NAME} (MID) -> config: ${JSON.stringify(config)}`);
 
   // Save config to destiny repository
-  await DestinyRepository.set({ data: config });
+  await destinyConfigSetRepository.execute({ data: config });
   logger.debug(`${MODULE_NAME} (MID) -> config stored in destiny Repository`);
 
   // Build & Return result
