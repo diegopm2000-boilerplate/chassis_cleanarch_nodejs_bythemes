@@ -1,15 +1,14 @@
-// GetConfigController.js
+// healthcheckController.js
 
 const logger = require('../../../shared/infrastructure/log/logFacade');
 const presenter = require('../../../shared/adapter/presenter/httpPresenter');
-const getConfigUC = require('../../usecase/getConfigUC');
-const configGetRepository = require('../../infrastructure/repository/memory/memoryConfigGetRepository');
+const healthcheckUC = require('../../usecase/healthcheckUC');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
 // //////////////////////////////////////////////////////////////////////////////
 
-const MODULE_NAME = '[getConfigController]';
+const MODULE_NAME = '[healthcheckController]';
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Methods
@@ -19,8 +18,8 @@ exports.execute = async (req, res, next) => {
   try {
     logger.info(`${MODULE_NAME} (IN) -> no params`);
 
-    const result = await getConfigUC.execute({
-      logger, presenter, configGetRepository,
+    const result = await healthcheckUC.execute({
+      logger, presenter,
     });
 
     logger.info(`${MODULE_NAME} (OUT) -> result: ${JSON.stringify(result)}`);

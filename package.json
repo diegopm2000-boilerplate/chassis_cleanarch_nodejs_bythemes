@@ -34,6 +34,7 @@
     "express-openapi": "^6.0.0",
     "frameguard": "^3.1.0",
     "fs-readfile-promise": "^3.0.1",
+    "glob": "^7.1.6",
     "helmet": "^3.22.0",
     "hsts": "^2.2.0",
     "jsonschema": "^1.2.6",

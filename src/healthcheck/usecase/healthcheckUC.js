@@ -1,4 +1,4 @@
-// GetConfigUC.js
+// HealthcheckUC.js
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
@@ -10,11 +10,11 @@ const MODULE_NAME = '[loadConfigUC]';
 // Public Methods
 // //////////////////////////////////////////////////////////////////////////////
 
-exports.execute = async ({ logger, presenter, configGetRepository }) => {
+exports.execute = async ({ logger, presenter }) => {
   logger.debug(`${MODULE_NAME} (IN)  -> no params`);
 
-  // Get Config from repository
-  const innerResult = await configGetRepository.execute();
+  // Prepare message result
+  const innerResult = { message: 'OK' };
   logger.debug(`${MODULE_NAME} (MID) -> innerResult: ${JSON.stringify(innerResult)}`);
 
   // Build & Return result

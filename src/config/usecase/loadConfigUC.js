@@ -17,7 +17,7 @@ const BOOTSTRAP_CONFIG_SPRINGCFG_ENDPOINT = 'BOOTSTRAP_CONFIG_SPRINGCFG_ENDPOINT
 exports.execute = async ({
   logger, presenter, bootstrapGetRepository, primaryConfigGetRepository, secondaryConfigGetRepository, destinyConfigSetRepository,
 }) => {
-  logger.debug(`${MODULE_NAME} (IN) -> no params`);
+  logger.debug(`${MODULE_NAME} (IN)  -> no params`);
 
   // Load bootstrap variables from bootstrap Repository
   const configSource = bootstrapGetRepository.execute(BOOTSTRAP_CONFIG_SOURCE_APP);
@@ -46,5 +46,7 @@ exports.execute = async ({
   logger.debug(`${MODULE_NAME} (MID) -> config stored in destiny Repository`);
 
   // Build & Return result
-  return presenter.presentObject(config);
+  const result = presenter.presentObject(config);
+  logger.debug(`${MODULE_NAME} (OUT) -> result: ${JSON.stringify(result)}`);
+  return result;
 };

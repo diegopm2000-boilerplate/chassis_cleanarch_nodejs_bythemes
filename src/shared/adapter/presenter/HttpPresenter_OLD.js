@@ -1,6 +1,6 @@
 // HttpPresenter.js
 
-const BasePresenter = require('./BasePresenter');
+const BasePresenter = require('./basePresenter');
 const AppLogger = require('../../infrastructure/log/AppLogger');
 
 const MSG_NOT_AUTHORIZED = { code: 401, data: { code: 401, message: 'User not authorized to resource' } };

@@ -13,44 +13,44 @@ paths:
   # Healthcheck
   # ##################################################################
 
-  # /healthcheck:
-  #   get:
-  #     summary: Healthcheck of the application
-  #     tags:
-  #       - Healthcheck
-  #     operationId: healthcheck
-  #     responses: 
-  #       "200": 
-  #         description: Success
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/Success'
-  #             example:
-  #               message: 'OK'
+  /healthcheck:
+    get:
+      summary: Healthcheck of the application
+      tags:
+        - Healthcheck
+      operationId: healthcheck
+      responses: 
+        "200": 
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+              example:
+                message: 'OK'
 
   # ##################################################################
   # Config
   # ##################################################################
   
-  # /config:
-  #   get:
-  #     summary: Get the application configuration. IMPORTANT -> Don't expose this method in production environment!!!
-  #     tags:
-  #       - Configuration
-  #     operationId: getConfig
-  #     responses: 
-  #       "200": 
-  #         description: Success
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/Object'
-  #             example:
-  #               app:
-  #                 appName: Clean Architecture - NodeJS - Organization by themes
-  #                 description: Demo of Clean Architecture in NodeJS using a organization of componentes by themes
-  #                 environment: dev
+  /config:
+    get:
+      summary: Get the application configuration. IMPORTANT -> Don't expose this method in production environment!!!
+      tags:
+        - Configuration
+      operationId: getConfig
+      responses: 
+        "200": 
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+              example:
+                app:
+                  appName: Clean Architecture - NodeJS - Organization by themes
+                  description: Demo of Clean Architecture in NodeJS using a organization of componentes by themes
+                  environment: dev
 
   # ##################################################################
   # Authentication

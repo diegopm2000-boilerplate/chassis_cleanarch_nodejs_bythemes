@@ -1,8 +1,14 @@
+
 // expressOpenApiInfra.js
+
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
 
 const expressOpenapi = require('express-openapi');
 const getMyKeys = require('uas-get-my-keys');
 const bodyParser = require('body-parser');
+const glob = require('glob');
+const path = require('path');
 
 const fileInfra = require('../util/fileInfra');
 const errorHandler = require('./errorHandler');
@@ -18,13 +24,34 @@ const MODULE_NAME = '[ExpressOpenApi Infra]';
 // Private Methods
 // //////////////////////////////////////////////////////////////////////////////
 
+const loadModule = (controllerPathFile) => {
+  logger.debug(`${MODULE_NAME} loadModule (IN) --> controllerPathFile: ${controllerPathFile}`);
+
+  const realPath = `../../../../${controllerPathFile}`;
+  const module = require(realPath);
+  logger.debug(`${MODULE_NAME} loadModule (MID) --> module loaded`);
+
+  logger.debug(`${MODULE_NAME} loadModule (OUT) --> module: <<module>>`);
+  return module;
+};
+
 const getOperationIds = (apiDocumentFilepath) => {
   logger.debug(`${MODULE_NAME} getOperationIds (IN) --> apiDocumentFilepath: ${apiDocumentFilepath}`);
 
   const objApiDocument = fileInfra.loadObjFromFileSync(apiDocumentFilepath);
   // Get the operations from apiDocument
   const innerOperationIds = getMyKeys(objApiDocument, ['operationId']);
-  const result = innerOperationIds.operationId;
+
+  const innerResult = innerOperationIds.operationId;
+
+  let result;
+  if (!innerResult) {
+    result = [];
+  } else if (!Array.isArray(innerResult)) {
+    result = [innerResult];
+  } else {
+    result = innerResult;
+  }
 
   logger.debug(`${MODULE_NAME} getOperationIds (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
@@ -33,7 +60,7 @@ const getOperationIds = (apiDocumentFilepath) => {
 const getControllers = () => {
   logger.debug(`${MODULE_NAME} getControllers (IN) --> no params`);
 
-  let result = {};
+  const result = glob.sync('src/**/*Controller.js');
 
   logger.debug(`${MODULE_NAME} getControllers (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
@@ -47,18 +74,19 @@ const buildOperations = (apiDocumentFilepath) => {
   const operationIds = getOperationIds(apiDocumentFilepath);
   const controllers = getControllers();
 
-  // if (operationIds != null) {
-  //   if (Array.isArray(operationIds)) {
-  //     operationIds.forEach((element) => {
-  //       // result[`${element}`] = container.get(`${element}Controller`).execute;
-  //       result[`${element}`] = controllers[`${element}Controller`].execute.bind(controllers[`${element}Controller`]);
-  //     });
-  //   } else {
-  //     result[`${operationIds}`] = controllers[`${operationIds}Controller`].execute.bind(controllers[`${operationIds}Controller`]);
-  //   }
-  // }
+  operationIds.forEach((element) => {
+    console.log(`--> element: ${element}`);
 
-  logger.debug(`${MODULE_NAME} buildOperations (OUT) --> result: <<result>>`);
+    // Get the controller associated
+    const controllerFound = controllers.find((x) => x.endsWith(`${element}Controller.js`));
+    console.log(`--> ControllerFound: ${controllerFound}`);
+    const module = loadModule(controllerFound);
+
+    result[element] = module.execute;
+    console.log(`--> operationId: ${element} binded with the controller module execute operation`);
+  });
+
+  logger.debug(`${MODULE_NAME} buildOperations (OUT) --> result: ${JSON.stringify(result)}`);
   return result;
 };
 
@@ -74,12 +102,8 @@ exports.init = (app, apiDocFilepath) => {
     apiDoc: apiDocFilepath,
     consumesMiddleware: { 'application/json': bodyParser.json() },
     errorMiddleware: errorHandler.commonErrorHandler,
+    operations: buildOperations(apiDocFilepath),
   };
-
-  const operations = buildOperations(apiDocFilepath);
-  if (JSON.stringify(operations) !== '{}') {
-    options.operations = operations;
-  }
 
   expressOpenapi.initialize(options);
 
