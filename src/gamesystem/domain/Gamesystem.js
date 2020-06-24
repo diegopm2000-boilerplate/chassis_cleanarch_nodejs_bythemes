@@ -10,6 +10,4 @@ class Gamesystem extends BaseDomainObj {
   }
 }
 
-module.exports = {
-  Gamesystem,
-};
+module.exports = Gamesystem;

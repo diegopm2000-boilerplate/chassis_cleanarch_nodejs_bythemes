@@ -42,7 +42,7 @@ exports.execute = async ({
   logger.debug(`${MODULE_NAME} (MID) -> config: ${JSON.stringify(config)}`);
 
   // Save config to destiny repository
-  await destinyConfigSetRepository.execute({ data: config });
+  await destinyConfigSetRepository.execute(config);
   logger.debug(`${MODULE_NAME} (MID) -> config stored in destiny Repository`);
 
   // Build & Return result

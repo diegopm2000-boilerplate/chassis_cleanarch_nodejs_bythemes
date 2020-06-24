@@ -8,7 +8,6 @@ const expressOpenapi = require('express-openapi');
 const getMyKeys = require('uas-get-my-keys');
 const bodyParser = require('body-parser');
 const glob = require('glob');
-const path = require('path');
 
 const fileInfra = require('../util/fileInfra');
 const errorHandler = require('./errorHandler');

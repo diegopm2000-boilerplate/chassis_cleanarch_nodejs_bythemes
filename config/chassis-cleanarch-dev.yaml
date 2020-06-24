@@ -16,8 +16,8 @@ modules:
     isAsync: false
   - name: expressOpenApiServer
     isAsync: true
-  # - name: authentication
-  #   isAsync: false
+  - name: authentication
+    isAsync: false
 authentication:
   tokenExpiration: 30 #minutes
   tokenSecret: fromzerotohero
