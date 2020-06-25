@@ -8,6 +8,10 @@ const logger = require('./logWinston');
 // Public Functions
 // //////////////////////////////////////////////////////////////////////////////
 
+// TODO poder iniciar el logger con cualquiera de las otras implementaciones
+
+// TODO probar que se arranque el logger con modo debug, info, etc...
+
 exports.defaultInit = () => {
   logger.defaultInit();
 };

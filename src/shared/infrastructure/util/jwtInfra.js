@@ -83,7 +83,6 @@ exports.getUserInfoFromToken = (token) => {
 
 exports.cleanToken = (tokenwithbearer) => {
   try {
-    // console.log(`--> tokenwithbearer: ${tokenwithbearer}`);
     // eslint-disable-next-line prefer-destructuring
     return tokenwithbearer.split(' ')[1];
   } catch (error) {

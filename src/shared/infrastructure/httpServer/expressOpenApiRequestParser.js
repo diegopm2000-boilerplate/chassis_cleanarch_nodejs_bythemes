@@ -1,4 +1,4 @@
-// expressOpenApiController.js
+// expressOpenApiRequestParser.js
 
 const logger = require('../log/logFacade');
 
@@ -6,7 +6,7 @@ const logger = require('../log/logFacade');
 // Constants & Properties
 // //////////////////////////////////////////////////////////////////////////////
 
-const MODULE_NAME = '[expressOpenApi RequestParser]';
+const MODULE_NAME = '[expressOpenApiRequestParser]';
 
 // //////////////////////////////////////////////////////////////////////////////
 // Private Functions
@@ -29,7 +29,7 @@ const loadParametersFromRequest = (req, origin, fieldsToParse) => {
   return result;
 };
 
-const flatBodyParamsToDataIN = (bFlat, params) => ((bFlat) ? params : { dataIN: params });
+const flatBodyParamsToDataIN = (bFlat, params) => ((bFlat && JSON.stringify(params) !== '{}') ? params : { dataIN: params });
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Functions

@@ -1,4 +1,3 @@
-
 // expressOpenApiInfra.js
 
 /* eslint-disable import/no-dynamic-require */
@@ -74,15 +73,15 @@ const buildOperations = (apiDocumentFilepath) => {
   const controllers = getControllers();
 
   operationIds.forEach((element) => {
-    console.log(`--> element: ${element}`);
+    logger.debug(`${MODULE_NAME} buildOperations (MID) --> element: ${element}`);
 
     // Get the controller associated
     const controllerFound = controllers.find((x) => x.endsWith(`${element}Controller.js`));
-    console.log(`--> ControllerFound: ${controllerFound}`);
+    logger.debug(`${MODULE_NAME} buildOperations (MID) --> ControllerFound: ${controllerFound}`);
     const module = loadModule(controllerFound);
 
     result[element] = module.execute;
-    console.log(`--> operationId: ${element} binded with the controller module execute operation`);
+    logger.debug(`${MODULE_NAME} buildOperations (MID) --> operationId: ${element} binded with the controller module execute operation`);
   });
 
   logger.debug(`${MODULE_NAME} buildOperations (OUT) --> result: ${JSON.stringify(result)}`);

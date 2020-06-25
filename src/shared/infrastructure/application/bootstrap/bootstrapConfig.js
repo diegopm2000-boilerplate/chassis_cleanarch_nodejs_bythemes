@@ -14,10 +14,10 @@ const MODULE_NAME = '[boostrapConfig]';
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.init = async () => {
-  logger.debug(`${MODULE_NAME} initConfig (IN) --> no params`);
+  logger.debug(`${MODULE_NAME} init (IN) --> no params`);
 
   const config = await loadConfigController.execute();
 
-  logger.debug(`${MODULE_NAME} initConfig (OUT) --> config: ${JSON.stringify(config)}`);
+  logger.debug(`${MODULE_NAME} init (OUT) --> config: ${JSON.stringify(config)}`);
   return config;
 };

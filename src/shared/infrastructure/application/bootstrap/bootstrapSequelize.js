@@ -14,9 +14,9 @@ const MODULE_NAME = '[bootstrapSequelize]';
 // //////////////////////////////////////////////////////////////////////////////
 
 exports.init = (config) => {
-  logger.debug(`${MODULE_NAME} initModules (IN) --> config: <<config>>`);
+  logger.debug(`${MODULE_NAME} init (IN) --> config: <<config>>`);
 
   sequelizeInfra.init(config.database.sequelize);
 
-  logger.debug(`${MODULE_NAME} initConfig (OUT) --> initialized`);
+  logger.debug(`${MODULE_NAME} init (OUT) --> initialized`);
 };

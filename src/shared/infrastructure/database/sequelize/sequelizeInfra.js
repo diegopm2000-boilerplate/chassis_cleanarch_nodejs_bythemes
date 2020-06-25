@@ -1,4 +1,4 @@
-// SequelizeInfra.js
+// sequelizeInfra.js
 
 const { Sequelize } = require('sequelize');
 
