@@ -1,4 +1,4 @@
-// fileConfigGetRepository.js
+// fileGetConfigRepository.js
 
 const fileInfra = require('../../../../shared/infrastructure/util/fileInfra');
 const constants = require('../../../../shared/infrastructure/constants/constants');

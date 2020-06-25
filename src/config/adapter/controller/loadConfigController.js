@@ -1,18 +1,18 @@
-// LoadConfigAltController_Alt.js
+// loadConfigController.js
 
 const logger = require('../../../shared/infrastructure/log/logFacade');
 const presenter = require('../../../shared/adapter/presenter/basePresenter');
 const loadConfigUC = require('../../usecase/loadConfigUC');
 const bootstrapGetRepository = require('../../infrastructure/repository/environmentVariables/environmentVariablesGetRepository');
-const primaryConfigGetRepository = require('../../infrastructure/repository/file/fileConfigGetRepository');
-const secondaryConfigGetRepository = require('../../infrastructure/repository/remote/remoteConfigGetRepository');
-const destinyConfigSetRepository = require('../../infrastructure/repository/memory/memoryConfigSetRepository');
+const primaryConfigGetRepository = require('../../infrastructure/repository/file/fileGetConfigRepository');
+const secondaryConfigGetRepository = require('../../infrastructure/repository/remote/remoteGetConfigRepository');
+const destinyConfigSetRepository = require('../../infrastructure/repository/memory/memorySetConfigRepository');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
 // //////////////////////////////////////////////////////////////////////////////
 
-const MODULE_NAME = '[LoadConfigController]';
+const MODULE_NAME = '[loadConfigController]';
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Methods

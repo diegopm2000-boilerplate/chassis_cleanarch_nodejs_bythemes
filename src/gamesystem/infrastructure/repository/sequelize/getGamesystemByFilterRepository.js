@@ -7,7 +7,7 @@ const SequelizeGameSystemModel = require('./SequelizeGamesystemModel');
 // Properties & Constants
 // //////////////////////////////////////////////////////////////////////////////
 
-const MODULE_NAME = '[getGamesystemByIdRepository]';
+const MODULE_NAME = '[getGamesystemByFilterRepository]';
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Methods

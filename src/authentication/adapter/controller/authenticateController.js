@@ -1,4 +1,4 @@
-// AuthenticationController.js
+// authenticationController.js
 
 const logger = require('../../../shared/infrastructure/log/logFacade');
 const presenter = require('../../../shared/adapter/presenter/httpPresenter');
@@ -6,12 +6,13 @@ const authenticateUC = require('../../usecase/authenticateUC');
 const requestParser = require('../../../shared/infrastructure/httpServer/expressOpenApiRequestParser');
 const passwordInfra = require('../../../shared/infrastructure/util/passwordInfra');
 const authenticationInfra = require('../../../shared/infrastructure/util/jwtInfra');
-const getByUsernameAuthenticationRepository = require('../../infrastructure/repository/inconfig/inConfiggetByUsernameAuthenticationRepository');
+const getByUsernameAuthenticationRepository = require('../../infrastructure/repository/inconfig/inConfigGetByUsernameAuthenticationRepository');
+
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
 // //////////////////////////////////////////////////////////////////////////////
 
-const MODULE_NAME = '[createGamesystemcontroller]';
+const MODULE_NAME = '[authenticationController]';
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Methods

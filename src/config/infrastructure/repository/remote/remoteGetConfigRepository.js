@@ -1,4 +1,4 @@
-// remoteConfigGetRepository.js
+// remoteGetConfigRepository.js
 
 const axios = require('axios');
 const YAML = require('yaml');

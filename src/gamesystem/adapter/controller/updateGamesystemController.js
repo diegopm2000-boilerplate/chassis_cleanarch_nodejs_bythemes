@@ -1,4 +1,4 @@
-// UpdateGamesystemController.js
+// updateGamesystemController.js
 
 const logger = require('../../../shared/infrastructure/log/logFacade');
 const presenter = require('../../../shared/adapter/presenter/httpPresenter');
@@ -13,7 +13,7 @@ const requestParser = require('../../../shared/infrastructure/httpServer/express
 // Properties & Constants
 // //////////////////////////////////////////////////////////////////////////////
 
-const MODULE_NAME = '[createGamesystemcontroller]';
+const MODULE_NAME = '[updateGamesystemController]';
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Methods

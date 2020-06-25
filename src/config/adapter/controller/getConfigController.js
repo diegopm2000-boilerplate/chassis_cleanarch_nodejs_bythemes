@@ -1,9 +1,9 @@
-// GetConfigController.js
+// getConfigController.js
 
 const logger = require('../../../shared/infrastructure/log/logFacade');
 const presenter = require('../../../shared/adapter/presenter/httpPresenter');
 const getConfigUC = require('../../usecase/getConfigUC');
-const configGetRepository = require('../../infrastructure/repository/memory/memoryConfigGetRepository');
+const configGetRepository = require('../../infrastructure/repository/memory/memoryGetConfigRepository');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants

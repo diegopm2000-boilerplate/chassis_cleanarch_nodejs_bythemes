@@ -1,4 +1,4 @@
-// DeleteGamesystemController.js
+// deleteGamesystemController.js
 
 const logger = require('../../../shared/infrastructure/log/logFacade');
 const presenter = require('../../../shared/adapter/presenter/httpPresenter');
@@ -11,7 +11,7 @@ const requestParser = require('../../../shared/infrastructure/httpServer/express
 // Properties & Constants
 // //////////////////////////////////////////////////////////////////////////////
 
-const MODULE_NAME = '[getAllGamesystemsController]';
+const MODULE_NAME = '[deleteGamesystemController]';
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Methods

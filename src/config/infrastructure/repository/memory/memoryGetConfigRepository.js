@@ -1,4 +1,4 @@
-// memoryConfigSetRepository.js
+// memoryGetConfigRepository.js
 
 const memoryConfigStore = require('./memoryConfigStore');
 
@@ -6,4 +6,4 @@ const memoryConfigStore = require('./memoryConfigStore');
 // Public Methods
 // //////////////////////////////////////////////////////////////////////////////
 
-exports.execute = async (config) => memoryConfigStore.set(config);
+exports.execute = async () => memoryConfigStore.get();
