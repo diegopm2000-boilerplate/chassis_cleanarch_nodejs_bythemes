@@ -1,22 +1,24 @@
 // logFacade.js
 
-// const logger = require('./consoleLogger');
-// const logger = require('./logColorLogger');
-const logger = require('./logWinston');
+const consoleLogger = require('./consoleLogger');
+
+// //////////////////////////////////////////////////////////////////////////////
+// Properties & Constants
+// //////////////////////////////////////////////////////////////////////////////
+
+let logger;
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Functions
 // //////////////////////////////////////////////////////////////////////////////
 
-// TODO poder iniciar el logger con cualquiera de las otras implementaciones
-
-// TODO probar que se arranque el logger con modo debug, info, etc...
-
 exports.defaultInit = () => {
+  logger = consoleLogger;
   logger.defaultInit();
 };
 
-exports.init = (options) => {
+exports.init = (module, options) => {
+  logger = module;
   logger.init(options);
 };
 

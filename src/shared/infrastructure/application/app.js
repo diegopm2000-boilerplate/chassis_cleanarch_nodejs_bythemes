@@ -26,7 +26,7 @@ process.on('unhandledRejection', (err, p) => {
 exports.init = async () => {
   try {
     // // Init logger
-    logger.init({ level: 'debug' });
+    logger.defaultInit({ level: 'debug' });
     logger.info(`${MODULE_NAME} (MID) --> Logger initialized OK`);
 
     // Init Configuration

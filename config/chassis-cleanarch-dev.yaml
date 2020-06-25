@@ -4,6 +4,7 @@ app:
   environment: dev
 log:  
   level: debug # modes available orderer by magnitude: error, warning, info, debug
+  module: logWinston # modules available: consoleLogger, logColorLogger, logWinston
 api:
   file: openapi.yaml
 express:
@@ -12,6 +13,8 @@ express:
   serverTimeout: 10s
   httpsAlways: false
 modules:
+  - name: logging
+    isAsync: false
   - name: expressOpenApiServer
     isAsync: true
   - name: sequelize
