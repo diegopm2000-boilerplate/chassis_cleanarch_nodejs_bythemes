@@ -17,8 +17,6 @@ const MODULE_NAME = '[bootstrapModules]';
 // Public Functions
 // //////////////////////////////////////////////////////////////////////////////
 
-// TODO arreglar esto para que los coja al vuelo en lugar de tener que declararlos aquí
-
 exports.init = async (config) => {
   logger.debug(`${MODULE_NAME} init (IN) --> config: <<config>>`);
 
