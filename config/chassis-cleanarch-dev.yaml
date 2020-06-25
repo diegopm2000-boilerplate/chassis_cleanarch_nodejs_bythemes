@@ -12,10 +12,10 @@ express:
   serverTimeout: 10s
   httpsAlways: false
 modules:
-  - name: sequelize
-    isAsync: false
   - name: expressOpenApiServer
     isAsync: true
+  - name: sequelize
+    isAsync: false
   - name: authentication
     isAsync: false
 authentication:
