@@ -1,45 +1,17 @@
 // schemaValidatorInfra.js
 
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
-
 const { Validator } = require('jsonschema');
 const _ = require('lodash');
-const glob = require('glob');
+
 
 const logger = require('../../log/logFacade');
+const moduleInfra = require('../moduleInfra');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
 // //////////////////////////////////////////////////////////////////////////////
 
 const MODULE_NAME = '[SchemaValidation Infra]';
-
-// //////////////////////////////////////////////////////////////////////////////
-// Private Functions
-// //////////////////////////////////////////////////////////////////////////////
-
-// TODO estos dos metodos se pueden sacar a una libreria de utilidad
-
-const getSchemas = () => {
-  logger.debug(`${MODULE_NAME} getSchemas (IN) --> no params`);
-
-  const result = glob.sync('src/**/*Schema.js');
-
-  logger.debug(`${MODULE_NAME} getSchemas (OUT) --> result: ${JSON.stringify(result)}`);
-  return result;
-};
-
-const loadModule = (pathfile) => {
-  logger.debug(`${MODULE_NAME} loadModule (IN) --> pathfile: ${pathfile}`);
-
-  const realPath = `../../../../../${pathfile}`;
-  const module = require(realPath);
-  logger.debug(`${MODULE_NAME} loadModule (MID) --> module loaded`);
-
-  logger.debug(`${MODULE_NAME} loadModule (OUT) --> module: <<module>>`);
-  return module;
-};
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Functions
@@ -52,9 +24,9 @@ exports.validate = (instance, objectName) => {
 
   // Getting the schema
   // const { schema } = schemas[`${_.lowerFirst(objectName)}Schema`];
-  const schemas = getSchemas();
-  const schemaFound = schemas.find((x) => x.endsWith(`${_.lowerFirst(objectName)}Schema.js`));
-  const moduleSchema = loadModule(schemaFound);
+  const schemas = moduleInfra.getFilesByPattern('src/**/*Schema.js');
+  const schemaFileFound = schemas.find((x) => x.endsWith(`${_.lowerFirst(objectName)}Schema.js`));
+  const moduleSchema = moduleInfra.loadModule(schemaFileFound);
 
   // Validating the instance with the schema
   const validationResult = v.validate(instance, moduleSchema);

@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const glob = require('glob');
 
 const fileInfra = require('../util/fileInfra');
+const moduleInfra = require('../util/moduleInfra');
 const errorHandler = require('./errorHandler');
 const logger = require('../log/logFacade');
 
@@ -21,17 +22,6 @@ const MODULE_NAME = '[ExpressOpenApi Infra]';
 // //////////////////////////////////////////////////////////////////////////////
 // Private Methods
 // //////////////////////////////////////////////////////////////////////////////
-
-const loadModule = (controllerPathFile) => {
-  logger.debug(`${MODULE_NAME} loadModule (IN) --> controllerPathFile: ${controllerPathFile}`);
-
-  const realPath = `../../../../${controllerPathFile}`;
-  const module = require(realPath);
-  logger.debug(`${MODULE_NAME} loadModule (MID) --> module loaded`);
-
-  logger.debug(`${MODULE_NAME} loadModule (OUT) --> module: <<module>>`);
-  return module;
-};
 
 const getOperationIds = (apiDocumentFilepath) => {
   logger.debug(`${MODULE_NAME} getOperationIds (IN) --> apiDocumentFilepath: ${apiDocumentFilepath}`);
@@ -76,9 +66,9 @@ const buildOperations = (apiDocumentFilepath) => {
     logger.debug(`${MODULE_NAME} buildOperations (MID) --> element: ${element}`);
 
     // Get the controller associated
-    const controllerFound = controllers.find((x) => x.endsWith(`${element}Controller.js`));
-    logger.debug(`${MODULE_NAME} buildOperations (MID) --> ControllerFound: ${controllerFound}`);
-    const module = loadModule(controllerFound);
+    const controllerFileFound = controllers.find((x) => x.endsWith(`${element}Controller.js`));
+    logger.debug(`${MODULE_NAME} buildOperations (MID) --> controllerFileFound: ${controllerFileFound}`);
+    const module = moduleInfra.loadModule(controllerFileFound);
 
     result[element] = module.execute;
     logger.debug(`${MODULE_NAME} buildOperations (MID) --> operationId: ${element} binded with the controller module execute operation`);
