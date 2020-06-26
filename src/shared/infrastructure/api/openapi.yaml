@@ -220,6 +220,146 @@ paths:
         "404": 
           $ref: '#/components/responses/ObjectNotFoundResponse'
 
+  # ##################################################################
+  # Videogames
+  # ##################################################################
+
+  /videogames:
+    post: 
+      summary: Create a new videogame
+      tags:
+        - Videogames
+      operationId: createVideogame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VideogameCreationData"
+            example:
+              id: xxxxxxxxxxxxxxxxx
+              name: a new awesome videogame
+              description: a new awesome videogame
+
+      responses: 
+        "201": 
+          description: Videogame created OK and returned
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/VideogameData"
+              example:
+                id: xxxxxxxxxxxxxxxxx
+                name: a new awesome videogame
+                description: a new awesome videogame
+        "409": 
+          description: Conflict
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Error"
+              example:
+                code: 409
+                message: There is a previous videogame with the same name in the system
+    get:
+      summary: Get all videogames
+      tags:
+        - Videogames
+      operationId: getAllVideogames
+      responses: 
+        "200": 
+          description: Data returned
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/VideogameDataList"
+              example:
+                - id: xxxxxxxxxxxxxxxxx
+                  name: a new awesome videogame
+                  description: a new awesome videogame
+                - id: yyyyyyyyyyyyyyyyy
+                  name: another stuff of videogame
+                  description: another stuff of videogame
+
+  /videogames/{videogameId}:
+    get:
+      summary: Get the videogame by id
+      tags:
+        - Videogames
+      operationId: getVideogameById
+      parameters:
+        - name: videogameId
+          in: path
+          description: videogame Id
+          required: true
+          schema:
+            type: string
+
+      responses: 
+        "200": 
+          description: Data returned
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/VideogameData"
+              example:
+                id: xxxxxxxxxxxxxxxxx
+                name: a new awesome videogame
+                description: a new awesome videogame
+        "404": 
+          $ref: '#/components/responses/ObjectNotFoundResponse'
+
+    put:
+      summary: Update the videogame by Id
+      tags:
+        - Videogames
+      operationId: updateVideogame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VideogameUpdateData"
+      parameters:
+        - name: videogameId
+          in: path
+          description: videogame Id
+          required: true
+          schema:
+            type: string
+      responses: 
+        "200": 
+          description: Videogame updated OK and data returned
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/VideogameData"
+              example:
+                id: xxxxxxxxxxxxxxxxx
+                name: an updated awesome videogame
+                description: an updated awesome videogame
+        "404": 
+          $ref: '#/components/responses/ObjectNotFoundResponse'
+
+    delete:
+      summary: Delete the videogame by Id
+      tags:
+        - Videogames
+      operationId: deleteVideogame
+      parameters:
+        - name: videogameId
+          in: path
+          description: videogame Id
+          required: true
+          schema:
+            type: string
+      responses: 
+        "204": 
+          description: Videogame deleted OK, no data returned
+        "404": 
+          $ref: '#/components/responses/ObjectNotFoundResponse'
+
+
 components:
 
   # ##################################################################
@@ -311,3 +451,39 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/GamesystemData"
+
+    # Videogames
+        
+    VideogameBasicData:
+      type: object 
+      properties: 
+        name:
+          type: string
+        developer:
+          type: string
+        genre:
+          type: string
+        year:
+          type: number
+        gamesystemId:
+          type: string
+      required: ['name', 'developer', 'genre', 'year', 'gamesystemId']
+      additionalProperties: false
+
+    VideogameData:
+      allOf:
+        - $ref: '#/components/schemas/IdData'
+        - $ref: '#/components/schemas/VideogameBasicData'
+    
+    VideogameCreationData:
+      allOf:
+        - $ref: '#/components/schemas/VideogameBasicData'
+
+    VideogameUpdateData:
+      allOf:
+        - $ref: '#/components/schemas/VideogameBasicData'
+
+    VideogameDataList:
+      type: array
+      items:
+        $ref: "#/components/schemas/VideogameData"

@@ -3,6 +3,7 @@
 const { Sequelize } = require('sequelize');
 
 const SequelizeGamesystemModel = require('../../../../gamesystem/infrastructure/repository/sequelize/SequelizeGamesystemModel');
+const SequelizeVideogameModel = require('../../../../videogame/infrastructure/repository/sequelize/SequelizeVideogameModel');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
@@ -24,7 +25,11 @@ exports.init = (options) => {
     },
   });
 
-  models.gameSystemModel = SequelizeGamesystemModel.configure(sequelize);
+  models.gameSystemModel = SequelizeGamesystemModel.init(sequelize);
+  models.videogameModel = SequelizeVideogameModel.init(sequelize);
+
+  models.gameSystemModel.initAssociations();
+  models.videogameModel.initAssociations();
 };
 
 exports.getSequelize = () => sequelize;

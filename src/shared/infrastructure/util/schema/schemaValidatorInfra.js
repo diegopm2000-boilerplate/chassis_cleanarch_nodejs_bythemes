@@ -6,6 +6,7 @@ const _ = require('lodash');
 const logger = require('../../log/logFacade');
 // eslint-disable-next-line no-unused-vars
 const gamesystemSchema = require('./gamesystemSchema');
+const videogameSchema = require('./videogameSchema');
 
 // //////////////////////////////////////////////////////////////////////////////
 // Properties & Constants
@@ -15,11 +16,14 @@ const MODULE_NAME = '[SchemaValidation Infra]';
 
 const schemas = {
   gamesystemSchema,
+  videogameSchema,
 };
 
 // //////////////////////////////////////////////////////////////////////////////
 // Public Functions
 // //////////////////////////////////////////////////////////////////////////////
+
+// TOOD cargar dinamicamente los esquemas
 
 exports.validate = (instance, objectName) => {
   logger.debug(`${MODULE_NAME} validate (IN) --> instance: ${JSON.stringify(instance)}, objectName: ${objectName}`);
