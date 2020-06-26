@@ -47,8 +47,6 @@ const loadModule = (pathfile) => {
 // Public Functions
 // //////////////////////////////////////////////////////////////////////////////
 
-// TODO cargar los modelos de forma dinámica
-
 exports.init = (options) => {
   sequelize = new Sequelize(options.dbname, options.dbuser, options.dbpasswd, {
     host: options.dbhost,
