@@ -3,7 +3,6 @@
 const { Validator } = require('jsonschema');
 const _ = require('lodash');
 
-
 const logger = require('../../log/logFacade');
 const moduleInfra = require('../moduleInfra');
 

@@ -24,6 +24,12 @@ exports.execute = async ({
     return presenter.presentObjectNotFound();
   }
 
+  // Check if there are videogames related with the gamesystem
+  const videogames = await gamesystemFound.getVideogames();
+  if (videogames && videogames.length > 0) {
+    return presenter.presentConflict('There are videogames associated with this gamesystem');
+  }
+
   // Remove object from repository
   const wasDeleted = await deleteGamesystemRepository.execute(id);
   logger.debug(`${MODULE_NAME} (MID) -> wasDeleted: ${JSON.stringify(wasDeleted)}`);
